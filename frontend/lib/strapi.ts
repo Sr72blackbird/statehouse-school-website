@@ -18,26 +18,41 @@ export async function fetchFromStrapi<T>(
     headers["Authorization"] = `Bearer ${STRAPI_API_TOKEN}`;
   }
 
-  const res = await fetch(`${STRAPI_URL}/api${endpoint}`, {
-    headers,
-    cache: "no-store", // always fetch fresh content
-    ...options,
-  });
-
-  if (!res.ok) {
-    const errorText = await res.text().catch(() => res.statusText);
-    const errorMessage = `Strapi fetch failed: ${res.status} ${res.statusText}${STRAPI_API_TOKEN ? '' : ' (No API token configured)'}`;
-    console.error(errorMessage, {
-      endpoint,
-      status: res.status,
-      statusText: res.statusText,
-      hasToken: !!STRAPI_API_TOKEN,
-      url: `${STRAPI_URL}/api${endpoint}`,
+  try {
+    const res = await fetch(`${STRAPI_URL}/api${endpoint}`, {
+      headers,
+      cache: "no-store", // always fetch fresh content
+      ...options,
     });
-    throw new Error(errorMessage);
-  }
 
-  return res.json();
+    if (!res.ok) {
+      const errorText = await res.text().catch(() => res.statusText);
+      const errorMessage = `Strapi fetch failed: ${res.status} ${res.statusText}${STRAPI_API_TOKEN ? '' : ' (No API token configured)'}`;
+      console.error(errorMessage, {
+        endpoint,
+        status: res.status,
+        statusText: res.statusText,
+        hasToken: !!STRAPI_API_TOKEN,
+        url: `${STRAPI_URL}/api${endpoint}`,
+      });
+      throw new Error(errorMessage);
+    }
+
+    return res.json();
+  } catch (error) {
+    // Handle network errors or fetch failures
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      const errorMessage = `Network error: Unable to connect to Strapi at ${STRAPI_URL}. Please ensure Strapi is running.`;
+      console.error(errorMessage, {
+        endpoint,
+        url: `${STRAPI_URL}/api${endpoint}`,
+        originalError: error,
+      });
+      throw new Error(errorMessage);
+    }
+    // Re-throw other errors
+    throw error;
+  }
 }
 
 /**

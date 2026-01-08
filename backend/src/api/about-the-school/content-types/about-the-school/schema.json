@@ -49,6 +49,21 @@
     },
     "established_year": {
       "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "google_maps_embed_url": {
+      "type": "text"
     }
   }
 }

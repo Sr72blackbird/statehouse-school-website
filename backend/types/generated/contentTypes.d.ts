@@ -479,11 +479,14 @@ export interface ApiAboutTheSchoolAboutTheSchool
     draftAndPublish: true;
   };
   attributes: {
+    address: Schema.Attribute.Text;
     core_values: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
     established_year: Schema.Attribute.String;
+    google_maps_embed_url: Schema.Attribute.Text;
     history: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -491,8 +494,10 @@ export interface ApiAboutTheSchoolAboutTheSchool
       'api::about-the-school.about-the-school'
     > &
       Schema.Attribute.Private;
+    location: Schema.Attribute.String;
     logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     mission: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
     profile_image: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
     >;

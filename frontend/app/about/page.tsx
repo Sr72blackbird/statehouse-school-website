@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 
 type Media = {
@@ -14,6 +15,11 @@ type AboutSchool = {
   established_year: string | null;
   logo: Media | null;
   profile_image: Media | null;
+  location: string | null;
+  address: string | null;
+  phone: string | null;
+  email: string | null;
+  google_maps_embed_url: string | null;
 };
 
 type AboutSchoolResponse = {
@@ -129,6 +135,116 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Location & Contact Section */}
+      {(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) && (
+        <section className="py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
+          <div className="max-w-6xl mx-auto px-6">
+            <h2
+              className="text-3xl font-bold mb-8 text-center"
+              style={{ color: "var(--school-navy)" }}
+            >
+              Location & Contact
+            </h2>
+            
+            {/* Google Maps Embed */}
+            {data.google_maps_embed_url && (
+              <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
+                <h3
+                  className="text-xl font-bold mb-4"
+                  style={{ color: "var(--school-navy)" }}
+                >
+                  📍 Find Us on Google Maps
+                </h3>
+                <div className="w-full overflow-hidden rounded-lg">
+                  <iframe
+                    src={data.google_maps_embed_url}
+                    width="100%"
+                    height="450"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {data.location && (
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <h3
+                    className="text-xl font-bold mb-3"
+                    style={{ color: "var(--school-navy)" }}
+                  >
+                    📍 Location
+                  </h3>
+                  {data.google_maps_embed_url ? (
+                    <a
+                      href={data.google_maps_embed_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-700 hover:underline block"
+                      style={{ color: "var(--school-navy)" }}
+                    >
+                      {data.location}
+                    </a>
+                  ) : (
+                    <p className="text-slate-700">{data.location}</p>
+                  )}
+                </div>
+              )}
+              {data.address && (
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <h3
+                    className="text-xl font-bold mb-3"
+                    style={{ color: "var(--school-navy)" }}
+                  >
+                    🏫 Address
+                  </h3>
+                  <p className="text-slate-700 whitespace-pre-line">{data.address}</p>
+                </div>
+              )}
+              {data.phone && (
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <h3
+                    className="text-xl font-bold mb-3"
+                    style={{ color: "var(--school-navy)" }}
+                  >
+                    📞 Phone
+                  </h3>
+                  <a
+                    href={`tel:${data.phone}`}
+                    className="text-slate-700 hover:underline"
+                    style={{ color: "var(--school-navy)" }}
+                  >
+                    {data.phone}
+                  </a>
+                </div>
+              )}
+              {data.email && (
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <h3
+                    className="text-xl font-bold mb-3"
+                    style={{ color: "var(--school-navy)" }}
+                  >
+                    ✉️ Email
+                  </h3>
+                  <a
+                    href={`mailto:${data.email}`}
+                    className="text-slate-700 hover:underline"
+                    style={{ color: "var(--school-navy)" }}
+                  >
+                    {data.email}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <Footer />
     </main>
   );
 }
