@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "staff_categories",
+  "info": {
+    "singularName": "staff-category",
+    "pluralName": "staff-categories",
+    "displayName": "Staff Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "blocks",
+      "required": false
+    },
+    "staff_members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::staff-member.staff-member",
+      "mappedBy": "category"
+    }
+  }
+}

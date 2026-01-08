@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "academic_departments",
+  "info": {
+    "singularName": "academic-department",
+    "pluralName": "academic-departments",
+    "displayName": "Academic Department"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "hod": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::staff-member.staff-member"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

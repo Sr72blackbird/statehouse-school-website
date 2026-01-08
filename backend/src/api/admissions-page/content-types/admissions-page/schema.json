@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "admissions_pages",
+  "info": {
+    "singularName": "admissions-page",
+    "pluralName": "admissions-pages",
+    "displayName": "Admissions Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "introduction": {
+      "type": "blocks",
+      "required": true
+    },
+    "process": {
+      "type": "blocks"
+    },
+    "contact_info": {
+      "type": "blocks"
+    }
+  }
+}
