@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { fetchFromStrapi } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -205,6 +206,8 @@ export default async function AcademicsPage() {
           </div>
         )}
       </section>
+
+      <Footer />
     </main>
   );
 }

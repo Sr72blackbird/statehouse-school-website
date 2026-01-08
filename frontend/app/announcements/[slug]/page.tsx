@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -207,6 +208,8 @@ export default async function AnnouncementDetailPage({
           </div>
         )}
       </section>
+
+      <Footer />
     </main>
   );
 }
