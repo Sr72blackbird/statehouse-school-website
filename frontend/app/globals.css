@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+:root {
+  --school-navy: #0A1F44;
+  --school-sky: #6EC1E4;
+  --school-grey: #F2F4F7;
+  --school-grey-strong: #ECEBE7;
+  --uniform-accent: #F1C40F
+}

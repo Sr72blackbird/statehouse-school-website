@@ -1,0 +1,54 @@
+{
+  "kind": "singleType",
+  "collectionName": "about_the_schools",
+  "info": {
+    "singularName": "about-the-school",
+    "pluralName": "about-the-schools",
+    "displayName": "About the School"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "School_name": {
+      "type": "string",
+      "required": true
+    },
+    "history": {
+      "type": "string"
+    },
+    "mission": {
+      "type": "string"
+    },
+    "vision": {
+      "type": "string"
+    },
+    "core_values": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "profile_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "established_year": {
+      "type": "string"
+    }
+  }
+}

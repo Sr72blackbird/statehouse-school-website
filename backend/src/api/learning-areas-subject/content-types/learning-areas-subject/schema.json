@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "learning_areas_subjects",
+  "info": {
+    "singularName": "learning-areas-subject",
+    "pluralName": "learning-areas-subjects",
+    "displayName": "Learning Areas/Subject"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "department": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::academic-department.academic-department"
+    },
+    "pathway": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cbc-pathway.cbc-pathway"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

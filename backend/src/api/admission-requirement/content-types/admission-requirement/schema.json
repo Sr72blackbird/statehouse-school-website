@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "admission_requirements",
+  "info": {
+    "singularName": "admission-requirement",
+    "pluralName": "admission-requirements",
+    "displayName": "Admission Requirements"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}
