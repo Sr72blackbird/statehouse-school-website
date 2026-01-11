@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { fetchFromStrapi } from "@/lib/strapi";
+import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 
 type Media = {
   url: string;
@@ -27,13 +27,8 @@ export default async function Home() {
 
   const data = about.data;
 
-  const logoUrl = data.logo?.url
-    ? `http://localhost:1337${data.logo.url}`
-    : null;
-
-  const profileUrl = data.profile_image?.url
-    ? `http://localhost:1337${data.profile_image.url}`
-    : null;
+  const logoUrl = getStrapiMediaUrl(data.logo?.url);
+  const profileUrl = getStrapiMediaUrl(data.profile_image?.url);
 
   return (
     <main
