@@ -88,10 +88,7 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
-            style={{
-              focusRingColor: "var(--school-navy)",
-            }}
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           />
         </div>
 
@@ -106,10 +103,7 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
-            style={{
-              focusRingColor: "var(--school-navy)",
-            }}
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           />
         </div>
 
@@ -123,10 +117,7 @@ export default function ContactForm() {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
-            style={{
-              focusRingColor: "var(--school-navy)",
-            }}
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           />
         </div>
 
@@ -140,10 +131,7 @@ export default function ContactForm() {
             value={formData.subject}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
-            style={{
-              focusRingColor: "var(--school-navy)",
-            }}
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           >
             <option value="">Select a subject</option>
             <option value="admissions">Admissions Inquiry</option>
@@ -164,10 +152,7 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             rows={5}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 resize-none"
-            style={{
-              focusRingColor: "var(--school-navy)",
-            }}
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2 resize-none"
           />
         </div>
 
