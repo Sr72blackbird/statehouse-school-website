@@ -12,13 +12,8 @@ export default function SearchBar() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trimmedQuery = query.trim();
-    
-    if (trimmedQuery) {
-      startTransition(() => {
-        router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
-      });
-    }
+    // Disabled for now
+    return;
   };
 
   return (
@@ -28,12 +23,10 @@ export default function SearchBar() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search announcements, news..."
-          className="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          style={{
-            focusRingColor: "var(--school-navy)",
-          }}
-          aria-label="Search"
+          placeholder="Search coming soon..."
+          disabled
+          className="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-slate-300 bg-slate-100 cursor-not-allowed opacity-60 focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
+          aria-label="Search (Coming soon)"
         />
         <FaSearch
           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"

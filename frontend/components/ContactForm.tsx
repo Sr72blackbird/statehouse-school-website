@@ -32,48 +32,19 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("loading");
-    setMessage("");
-
-    try {
-      // TODO: Replace with actual API endpoint
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus("success");
-        setMessage("Thank you for your message! We'll get back to you soon.");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          subject: "",
-          message: "",
-        });
-      } else {
-        setStatus("error");
-        setMessage(data.error || "Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      setStatus("error");
-      setMessage("Unable to send message. Please try again later.");
-    }
+    // Disabled for now - coming soon
+    setStatus("idle");
+    setMessage("Contact form is coming soon! Please use the contact information in the footer for now.");
+    return;
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md opacity-75">
       <h3
         className="text-xl font-bold mb-4"
         style={{ color: "var(--school-navy)" }}
       >
-        Contact Us
+        Contact Us <span className="text-sm font-normal text-slate-500">(Coming Soon)</span>
       </h3>
 
       <div className="space-y-4">
@@ -88,7 +59,8 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
+            disabled
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg bg-slate-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           />
         </div>
 
@@ -103,7 +75,8 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
+            disabled
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg bg-slate-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           />
         </div>
 
@@ -131,7 +104,8 @@ export default function ContactForm() {
             value={formData.subject}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
+            disabled
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg bg-slate-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
           >
             <option value="">Select a subject</option>
             <option value="admissions">Admissions Inquiry</option>
@@ -158,14 +132,14 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          disabled={status === "loading"}
-          className="w-full px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled
+          className="w-full px-6 py-3 rounded-lg font-semibold transition-all opacity-50 cursor-not-allowed"
           style={{
             backgroundColor: "var(--school-navy)",
             color: "white",
           }}
         >
-          {status === "loading" ? "Sending..." : "Send Message"}
+          Coming Soon
         </button>
 
         {message && (
