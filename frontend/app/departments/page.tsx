@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
+
+export const metadata: Metadata = {
+  title: "Departments",
+  description: "Explore our academic departments and meet our department heads. Learn about our comprehensive academic structure.",
+  openGraph: {
+    title: "Academic Departments - Statehouse School",
+    description: "Explore our academic departments and meet our department heads.",
+  },
+};
 
 type Block = {
   type: string;
@@ -72,9 +82,9 @@ export default async function DepartmentsPage() {
     >
       <Header />
 
-      <section className="max-w-6xl mx-auto py-16 px-6">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
         <h1
-          className="text-5xl font-bold mb-12 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
           style={{ color: "var(--school-navy)" }}
         >
           Academic Departments

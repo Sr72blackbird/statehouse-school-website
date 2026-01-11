@@ -64,6 +64,21 @@
     },
     "google_maps_embed_url": {
       "type": "text"
+    },
+    "facebook_url": {
+      "type": "string"
+    },
+    "twitter_url": {
+      "type": "string"
+    },
+    "instagram_url": {
+      "type": "string"
+    },
+    "linkedin_url": {
+      "type": "string"
+    },
+    "youtube_url": {
+      "type": "string"
     }
   }
 }

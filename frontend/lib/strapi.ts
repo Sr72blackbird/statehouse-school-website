@@ -8,9 +8,9 @@ export async function fetchFromStrapi<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...options.headers,
+    ...(options.headers as Record<string, string> || {}),
   };
 
   // Add API token if available
@@ -20,9 +20,11 @@ export async function fetchFromStrapi<T>(
 
   try {
     const res = await fetch(`${STRAPI_URL}/api${endpoint}`, {
-      headers,
-      cache: "no-store", // always fetch fresh content
       ...options,
+      headers,
+      // Use revalidate for ISR (Incremental Static Regeneration)
+      // Revalidate every 60 seconds in production, no cache in development
+      next: { revalidate: process.env.NODE_ENV === "production" ? 60 : 0 },
     });
 
     if (!res.ok) {

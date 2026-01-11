@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
+
+export const metadata: Metadata = {
+  title: "Academics",
+  description: "Explore our academic programs, CBC pathways, and learning areas. Discover our comprehensive curriculum designed for excellence.",
+  openGraph: {
+    title: "Academics - Statehouse School",
+    description: "Explore our academic programs, CBC pathways, and learning areas.",
+  },
+};
 
 type Block = {
   type: string;
@@ -110,13 +120,13 @@ export default async function AcademicsPage() {
     >
       <Header />
 
-      <section className="max-w-6xl mx-auto py-16 px-6">
-        <h1
-          className="text-5xl font-bold mb-12 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          Academics
-        </h1>
+          <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
+              style={{ color: "var(--school-navy)" }}
+            >
+              Academics
+            </h1>
 
         {/* CBC Pathways Section */}
         {pathways.length > 0 && (

@@ -1,0 +1,17 @@
+services:
+  # Frontend Next.js Application
+  - type: web
+    name: statehouse-school-frontend
+    env: node
+    plan: starter
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_STRAPI_URL
+        sync: false
+      - key: STRAPI_API_TOKEN
+        sync: false
+    healthCheckPath: /
+    autoDeploy: true

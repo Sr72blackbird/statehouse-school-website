@@ -1,7 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
+
+export const metadata: Metadata = {
+  title: "Gallery",
+  description: "Browse our photo gallery showcasing school events, activities, and memorable moments.",
+  openGraph: {
+    title: "Gallery - Statehouse School",
+    description: "Browse our photo gallery showcasing school events and activities.",
+  },
+};
 
 type Media = {
   url: string;
@@ -107,9 +117,9 @@ export default async function GalleryPage() {
     >
       <Header />
 
-      <section className="max-w-6xl mx-auto py-16 px-6">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
         <h1
-          className="text-5xl font-bold mb-12 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
           style={{ color: "var(--school-navy)" }}
         >
           Gallery
@@ -157,8 +167,10 @@ export default async function GalleryPage() {
                     <div className="aspect-video overflow-hidden">
                       <img
                         src={coverUrl}
-                        alt={album.attributes.title}
+                        alt={`Cover image for ${album.attributes.title} gallery album`}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   ) : (

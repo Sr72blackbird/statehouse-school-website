@@ -1,9 +1,65 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const decodedSlug = decodeURIComponent(slug);
+
+  try {
+    const allResponse = await fetchFromStrapi<AnnouncementResponse>(
+      `/announcements?populate=*&sort=Date:desc`
+    );
+
+    const found = allResponse.data?.find((ann: any) => {
+      const existingSlug = ann.attributes?.Slug || ann.attributes?.slug || ann.Slug || ann.slug;
+      const title = ann.attributes?.Title || ann.Title;
+      
+      if (existingSlug && existingSlug !== 'null' && existingSlug === decodedSlug) {
+        return true;
+      }
+      
+      if (title) {
+        const generatedSlug = title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+        if (generatedSlug === decodedSlug) {
+          return true;
+        }
+      }
+      
+      return false;
+    });
+
+    if (found) {
+      const title = found.attributes?.Title || (found as any).Title;
+      return {
+        title: title || "Announcement",
+        description: `Read the full announcement: ${title}`,
+        openGraph: {
+          title: title || "Announcement",
+          description: `Read the full announcement: ${title}`,
+        },
+      };
+    }
+  } catch {
+    // Fall through to default
+  }
+
+  return {
+    title: "Announcement",
+    description: "Read our latest announcement",
+  };
+}
 
 type Block = {
   type: string;
@@ -155,32 +211,32 @@ export default async function AnnouncementDetailPage({
     >
       <Header />
 
-      <section className="max-w-4xl mx-auto py-16 px-6">
-        <Link
-          href="/announcements"
-          className="inline-block mb-8 text-slate-600 hover:text-slate-900"
-        >
-          ← Back to Announcements
-        </Link>
+          <section className="max-w-4xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
+            <Link
+              href="/announcements"
+              className="inline-block mb-6 sm:mb-8 text-slate-600 hover:text-slate-900 text-sm sm:text-base"
+            >
+              ← Back to Announcements
+            </Link>
 
-        {announcement.attributes.Category && (
-          <span
-            className="inline-block px-4 py-2 text-sm font-semibold rounded-full mb-4"
-            style={{
-              backgroundColor: "var(--school-sky)",
-              color: "var(--school-navy)",
-            }}
-          >
-            {announcement.attributes.Category}
-          </span>
-        )}
+            {announcement.attributes.Category && (
+              <span
+                className="inline-block px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4"
+                style={{
+                  backgroundColor: "var(--school-sky)",
+                  color: "var(--school-navy)",
+                }}
+              >
+                {announcement.attributes.Category}
+              </span>
+            )}
 
-        <h1
-          className="text-4xl font-bold mb-4"
-          style={{ color: "var(--school-navy)" }}
-        >
-          {announcement.attributes.Title}
-        </h1>
+            <h1
+              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
+              style={{ color: "var(--school-navy)" }}
+            >
+              {announcement.attributes.Title}
+            </h1>
 
         {announcement.attributes.Date && (
           <p className="text-slate-600 mb-8">
@@ -196,8 +252,10 @@ export default async function AnnouncementDetailPage({
           <div className="mb-8">
             <img
               src={imageUrl}
-              alt={announcement.attributes.Title}
+              alt={`${announcement.attributes.Title}${announcement.attributes.Category ? ` - ${announcement.attributes.Category}` : ''}`}
               className="w-full rounded-lg shadow-lg"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         )}

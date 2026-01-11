@@ -1,7 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
+
+export const metadata: Metadata = {
+  title: "Announcements",
+  description: "Stay updated with the latest news, notices, and events from our school.",
+  openGraph: {
+    title: "Announcements - Statehouse School",
+    description: "Stay updated with the latest news, notices, and events.",
+  },
+};
 
 type Media = {
   url: string;
@@ -109,9 +119,9 @@ export default async function AnnouncementsPage() {
     >
       <Header />
 
-      <section className="max-w-6xl mx-auto py-16 px-6">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
         <h1
-          className="text-5xl font-bold mb-12 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
           style={{ color: "var(--school-navy)" }}
         >
           Announcements
@@ -119,10 +129,10 @@ export default async function AnnouncementsPage() {
 
         {announcements.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-slate-700 text-lg">No announcements at this time.</p>
+            <p className="text-slate-700 text-base sm:text-lg">No announcements at this time.</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {announcements
               .filter((announcement) => {
                 // Filter out announcements without valid data
@@ -167,8 +177,10 @@ export default async function AnnouncementsPage() {
                     <div className="aspect-video overflow-hidden">
                       <img
                         src={imageUrl}
-                        alt={announcement.attributes.Title}
+                        alt={`${announcement.attributes.Title}${announcement.attributes.Category ? ` - ${announcement.attributes.Category}` : ''}`}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   )}
