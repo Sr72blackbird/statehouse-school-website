@@ -1,9 +1,53 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const albumId = parseInt(id, 10);
+
+  if (isNaN(albumId)) {
+    return {
+      title: "Gallery Album",
+      description: "View our gallery album",
+    };
+  }
+
+  try {
+    const allResponse = await fetchFromStrapi<any>(
+      `/gallery-albums?populate[gallery_items][populate]=*`
+    );
+
+    const found = allResponse.data?.find((album: any) => album.id === albumId);
+    
+    if (found) {
+      const title = found.attributes?.title || (found as any).title;
+      return {
+        title: title || "Gallery Album",
+        description: `View photos from ${title}`,
+        openGraph: {
+          title: title || "Gallery Album",
+          description: `View photos from ${title}`,
+        },
+      };
+    }
+  } catch {
+    // Fall through to default
+  }
+
+  return {
+    title: "Gallery Album",
+    description: "View our gallery album",
+  };
+}
 
 type Block = {
   type: string;
@@ -186,16 +230,16 @@ export default async function GalleryAlbumPage({
     >
       <Header />
 
-      <section className="max-w-6xl mx-auto py-16 px-6">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
         <Link
           href="/gallery"
-          className="inline-block mb-8 text-slate-600 hover:text-slate-900"
+          className="inline-block mb-6 sm:mb-8 text-slate-600 hover:text-slate-900 text-sm sm:text-base"
         >
           ← Back to Gallery
         </Link>
 
         <h1
-          className="text-4xl font-bold mb-4"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           style={{ color: "var(--school-navy)" }}
         >
           {album.attributes.title}
@@ -235,8 +279,12 @@ export default async function GalleryAlbumPage({
                   <div className="aspect-square overflow-hidden">
                     <img
                       src={imageUrl}
-                      alt={item.attributes.title || "Gallery image"}
+                      alt={item.attributes.title 
+                        ? `${item.attributes.title}${item.attributes.caption ? ` - ${item.attributes.caption}` : ''}`
+                        : `Gallery image ${item.id}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   {(item.attributes.title || item.attributes.caption) && (

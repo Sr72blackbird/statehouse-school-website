@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
+// import SearchBar from "./SearchBar"; // Hidden for now
 
 type Media = {
   url: string;
@@ -27,24 +28,27 @@ export default async function Header() {
     <header>
       {/* Top school identity bar */}
       <div
-        className="flex items-center justify-center gap-4 py-4"
+        className="flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4"
         style={{ backgroundColor: "var(--school-navy)" }}
       >
         {logoUrl && (
           <img
             src={logoUrl}
-            alt="School logo"
-            className="h-12 w-auto"
+            alt={`${data.School_name} logo`}
+            className="h-8 sm:h-10 md:h-12 w-auto"
+            loading="eager"
+            decoding="async"
           />
         )}
 
         <div className="text-center">
-          <h1 className="text-white text-2xl font-bold">
+          <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold" id="site-title">
             {data.School_name}
           </h1>
           <p
-            className="text-sm"
+            className="text-xs sm:text-sm"
             style={{ color: "var(--school-sky)" }}
+            aria-label="School motto"
           >
             Discipline • Excellence • Leadership
           </p>
@@ -59,17 +63,24 @@ export default async function Header() {
 
       {/* Navigation bar */}
       <nav
-        className="flex justify-center gap-6 py-3 text-sm font-medium flex-wrap"
+        className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 md:gap-6 py-2 sm:py-3 text-xs sm:text-sm font-medium px-4"
         style={{ backgroundColor: "var(--school-grey-strong)" }}
+        aria-label="Main navigation"
       >
-        <NavLink href="/">Home</NavLink>
-        <NavLink href="/about">About</NavLink>
-        <NavLink href="/admissions">Admissions</NavLink>
-        <NavLink href="/academics">Academics</NavLink>
-        <NavLink href="/departments">Departments</NavLink>
-        <NavLink href="/staff">Staff</NavLink>
-        <NavLink href="/announcements">Announcements</NavLink>
-        <NavLink href="/gallery">Gallery</NavLink>
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 md:gap-6">
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/about">About</NavLink>
+          <NavLink href="/admissions">Admissions</NavLink>
+          <NavLink href="/academics">Academics</NavLink>
+          <NavLink href="/departments">Departments</NavLink>
+          <NavLink href="/staff">Staff</NavLink>
+          <NavLink href="/announcements">Announcements</NavLink>
+          <NavLink href="/gallery">Gallery</NavLink>
+        </div>
+        {/* SearchBar hidden for now */}
+        {/* <div className="w-full sm:w-auto mt-2 sm:mt-0">
+          <SearchBar />
+        </div> */}
       </nav>
     </header>
   );

@@ -13,6 +13,11 @@ type AboutSchool = {
   phone: string | null;
   email: string | null;
   google_maps_embed_url: string | null;
+  facebook_url?: string | null;
+  twitter_url?: string | null;
+  instagram_url?: string | null;
+  linkedin_url?: string | null;
+  youtube_url?: string | null;
 };
 
 type AboutSchoolResponse = {
@@ -22,7 +27,11 @@ type AboutSchoolResponse = {
 export default async function Footer() {
   const about = await fetchFromStrapi<AboutSchoolResponse>(
     "/about-the-school?populate=logo"
-  );
+  ).catch(() => null);
+
+  if (!about) {
+    return null;
+  }
 
   const data = about.data;
   const logoUrl = getStrapiMediaUrl(data.logo?.url);
@@ -38,18 +47,20 @@ export default async function Footer() {
 
       {/* Main footer content */}
       <div
-        className="py-12 px-6"
+        className="py-8 sm:py-12 px-4 sm:px-6"
         style={{ backgroundColor: "var(--school-grey-strong)" }}
       >
         <div className="max-w-6xl mx-auto">
-          <div className={`grid gap-8 mb-8 ${(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+          <div className={`grid gap-6 sm:gap-8 mb-6 sm:mb-8 ${(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) ? 'sm:grid-cols-2 md:grid-cols-3' : 'sm:grid-cols-2'}`}>
             {/* School Info */}
             <div>
               {logoUrl && (
                 <img
                   src={logoUrl}
-                  alt="School logo"
+                  alt={`${data.School_name} logo`}
                   className="h-10 w-auto mb-4"
+                  loading="lazy"
+                  decoding="async"
                 />
               )}
               <h3
@@ -67,14 +78,14 @@ export default async function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div>
+            <nav aria-label="Footer navigation">
               <h4
                 className="text-lg font-semibold mb-4"
                 style={{ color: "var(--school-navy)" }}
               >
                 Quick Links
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2" role="list">
                 <li>
                   <FooterLink href="/">Home</FooterLink>
                 </li>
@@ -100,7 +111,7 @@ export default async function Footer() {
                   <FooterLink href="/gallery">Gallery</FooterLink>
                 </li>
               </ul>
-            </div>
+            </nav>
 
             {/* Contact / Additional Info */}
             {(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) && (
@@ -165,7 +176,7 @@ export default async function Footer() {
                       <iframe
                         src={data.google_maps_embed_url}
                         width="100%"
-                        height="200"
+                        height="180"
                         style={{ border: 0 }}
                         allowFullScreen
                         loading="lazy"
@@ -175,6 +186,80 @@ export default async function Footer() {
                     </div>
                   )}
                 </div>
+                
+                {/* Social Media Links */}
+                {(data.facebook_url || data.twitter_url || data.instagram_url || data.linkedin_url || data.youtube_url) && (
+                  <div className="mt-6">
+                    <h4
+                      className="text-lg font-semibold mb-3"
+                      style={{ color: "var(--school-navy)" }}
+                    >
+                      Follow Us
+                    </h4>
+                    <div className="flex gap-3">
+                      {data.facebook_url && (
+                        <a
+                          href={data.facebook_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-2xl hover:opacity-75 transition-opacity"
+                          style={{ color: "var(--school-navy)" }}
+                          aria-label="Visit our Facebook page"
+                        >
+                          📘
+                        </a>
+                      )}
+                      {data.twitter_url && (
+                        <a
+                          href={data.twitter_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-2xl hover:opacity-75 transition-opacity"
+                          style={{ color: "var(--school-navy)" }}
+                          aria-label="Visit our Twitter page"
+                        >
+                          🐦
+                        </a>
+                      )}
+                      {data.instagram_url && (
+                        <a
+                          href={data.instagram_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-2xl hover:opacity-75 transition-opacity"
+                          style={{ color: "var(--school-navy)" }}
+                          aria-label="Visit our Instagram page"
+                        >
+                          📷
+                        </a>
+                      )}
+                      {data.linkedin_url && (
+                        <a
+                          href={data.linkedin_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-2xl hover:opacity-75 transition-opacity"
+                          style={{ color: "var(--school-navy)" }}
+                          aria-label="Visit our LinkedIn page"
+                        >
+                          💼
+                        </a>
+                      )}
+                      {data.youtube_url && (
+                        <a
+                          href={data.youtube_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-2xl hover:opacity-75 transition-opacity"
+                          style={{ color: "var(--school-navy)" }}
+                          aria-label="Visit our YouTube channel"
+                        >
+                          ▶️
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

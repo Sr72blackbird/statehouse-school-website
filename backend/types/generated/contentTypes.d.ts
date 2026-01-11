@@ -486,8 +486,11 @@ export interface ApiAboutTheSchoolAboutTheSchool
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
     established_year: Schema.Attribute.String;
+    facebook_url: Schema.Attribute.String;
     google_maps_embed_url: Schema.Attribute.Text;
     history: Schema.Attribute.String;
+    instagram_url: Schema.Attribute.String;
+    linkedin_url: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -503,10 +506,12 @@ export interface ApiAboutTheSchoolAboutTheSchool
     >;
     publishedAt: Schema.Attribute.DateTime;
     School_name: Schema.Attribute.String & Schema.Attribute.Required;
+    twitter_url: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     vision: Schema.Attribute.String;
+    youtube_url: Schema.Attribute.String;
   };
 }
 

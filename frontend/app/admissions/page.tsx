@@ -1,7 +1,31 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const response = await fetchFromStrapi<AdmissionsPageResponse>(
+      "/admissions-page?populate=*"
+    );
+    const title = response.data.title;
+    
+    return {
+      title: "Admissions",
+      description: `${title} - Learn about our admission process and requirements.`,
+      openGraph: {
+        title: `Admissions - ${title}`,
+        description: "Learn about our admission process and requirements.",
+      },
+    };
+  } catch {
+    return {
+      title: "Admissions",
+      description: "Learn about our admission process and requirements.",
+    };
+  }
+}
 
 type Block = {
   type: string;
@@ -36,9 +60,9 @@ export default async function AdmissionsPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto py-16 px-6">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
         <h1
-          className="text-5xl font-bold mb-8 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-center"
           style={{ color: "var(--school-navy)" }}
         >
           {data.title}

@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
+
+export const metadata: Metadata = {
+  title: "Staff",
+  description: "Meet our dedicated staff members and educators who are committed to excellence in education.",
+  openGraph: {
+    title: "Our Staff - Statehouse School",
+    description: "Meet our dedicated staff members and educators.",
+  },
+};
 
 type Block = {
   type: string;
@@ -90,9 +100,9 @@ export default async function StaffPage() {
     >
       <Header />
 
-      <section className="max-w-6xl mx-auto py-16 px-6">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
         <h1
-          className="text-5xl font-bold mb-12 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
           style={{ color: "var(--school-navy)" }}
         >
           Our Staff
@@ -181,8 +191,10 @@ export default async function StaffPage() {
                             <div className="aspect-square overflow-hidden">
                               <img
                                 src={photoUrl}
-                                alt={member.attributes.full_name}
+                                alt={`${member.attributes.full_name}${member.attributes.job_title ? ` - ${member.attributes.job_title}` : ''}`}
                                 className="w-full h-full object-cover"
+                                loading="lazy"
+                                decoding="async"
                               />
                             </div>
                           ) : (

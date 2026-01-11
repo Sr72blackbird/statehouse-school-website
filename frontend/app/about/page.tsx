@@ -1,6 +1,30 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const about = await fetchFromStrapi<AboutSchoolResponse>(
+      "/about-the-school?populate=logo"
+    );
+    const schoolName = about.data.School_name;
+    
+    return {
+      title: "About",
+      description: `Learn about ${schoolName} - our history, mission, vision, and core values.`,
+      openGraph: {
+        title: `About ${schoolName}`,
+        description: `Learn about ${schoolName} - our history, mission, vision, and core values.`,
+      },
+    };
+  } catch {
+    return {
+      title: "About",
+      description: "Learn about our school - history, mission, vision, and core values.",
+    };
+  }
+}
 
 type Media = {
   url: string;
@@ -44,16 +68,16 @@ export default async function AboutPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto py-16 px-6">
-        <div className="text-center mb-12">
+      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-12">
           <h1
-            className="text-5xl font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
             style={{ color: "var(--school-navy)" }}
           >
             About {data.School_name}
           </h1>
           {data.established_year && (
-            <p className="text-xl text-slate-700">
+            <p className="text-lg sm:text-xl text-slate-700">
               Established in {data.established_year}
             </p>
           )}
@@ -63,8 +87,10 @@ export default async function AboutPage() {
           <div className="mb-12">
             <img
               src={profileUrl}
-              alt="School"
+              alt={`${data.School_name} - School building`}
               className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         )}
@@ -72,15 +98,15 @@ export default async function AboutPage() {
 
       {/* History Section */}
       {data.history && (
-        <section className="py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
-          <div className="max-w-6xl mx-auto px-6">
+        <section className="py-12 sm:py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2
-              className="text-3xl font-bold mb-6"
+              className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6"
               style={{ color: "var(--school-navy)" }}
             >
               Our History
             </h2>
-            <p className="text-lg text-slate-700 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
               {data.history}
             </p>
           </div>
@@ -88,9 +114,9 @@ export default async function AboutPage() {
       )}
 
       {/* Mission / Vision / Core Values */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {data.mission && (
               <div>
                 <h3
@@ -138,10 +164,10 @@ export default async function AboutPage() {
 
       {/* Location & Contact Section */}
       {(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) && (
-        <section className="py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
-          <div className="max-w-6xl mx-auto px-6">
+        <section className="py-12 sm:py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2
-              className="text-3xl font-bold mb-8 text-center"
+              className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center"
               style={{ color: "var(--school-navy)" }}
             >
               Location & Contact
@@ -149,9 +175,9 @@ export default async function AboutPage() {
             
             {/* Google Maps Embed */}
             {data.google_maps_embed_url && (
-              <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
+              <div className="mb-6 sm:mb-8 bg-white p-4 sm:p-6 rounded-lg shadow-md">
                 <h3
-                  className="text-xl font-bold mb-4"
+                  className="text-lg sm:text-xl font-bold mb-3 sm:mb-4"
                   style={{ color: "var(--school-navy)" }}
                 >
                   📍 Find Us on Google Maps
@@ -160,7 +186,8 @@ export default async function AboutPage() {
                   <iframe
                     src={data.google_maps_embed_url}
                     width="100%"
-                    height="450"
+                    height="300"
+                    className="sm:h-[400px] md:h-[450px]"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
@@ -170,7 +197,7 @@ export default async function AboutPage() {
               </div>
             )}
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
               {data.location && (
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3
