@@ -141,13 +141,13 @@ export default async function GalleryPage() {
                 if (coverImage.data?.attributes?.url) {
                   coverUrl = getStrapiMediaUrl(coverImage.data.attributes.url);
                 }
-                // Flat structure
-                else if (coverImage.url) {
-                  coverUrl = getStrapiMediaUrl(coverImage.url);
+                // Flat structure - use type assertion for flat API response
+                else if ((coverImage as any).url) {
+                  coverUrl = getStrapiMediaUrl((coverImage as any).url);
                 }
                 // Data is flat
-                else if (coverImage.data?.url) {
-                  coverUrl = getStrapiMediaUrl(coverImage.data.url);
+                else if ((coverImage.data as any)?.url) {
+                  coverUrl = getStrapiMediaUrl((coverImage.data as any).url);
                 }
               }
 
