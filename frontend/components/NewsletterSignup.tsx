@@ -9,42 +9,19 @@ export default function NewsletterSignup() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("loading");
-    setMessage("");
-
-    try {
-      // TODO: Replace with actual API endpoint
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus("success");
-        setMessage("Thank you for subscribing!");
-        setEmail("");
-      } else {
-        setStatus("error");
-        setMessage(data.error || "Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      setStatus("error");
-      setMessage("Unable to subscribe. Please try again later.");
-    }
+    // Disabled for now - coming soon
+    setStatus("idle");
+    setMessage("Newsletter signup is coming soon!");
+    return;
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-white p-6 rounded-lg shadow-md opacity-75">
       <h3
         className="text-xl font-bold mb-3"
         style={{ color: "var(--school-navy)" }}
       >
-        Subscribe to Our Newsletter
+        Subscribe to Our Newsletter <span className="text-sm font-normal text-slate-500">(Coming Soon)</span>
       </h3>
       <p className="text-slate-700 mb-4 text-sm">
         Stay updated with the latest news, events, and announcements from our school.
@@ -57,20 +34,20 @@ export default function NewsletterSignup() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             required
-            className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
-            aria-label="Email address"
-            disabled={status === "loading"}
+            disabled
+            className="flex-1 px-4 py-2 border border-slate-300 rounded-lg bg-slate-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--school-navy)] focus:ring-offset-2"
+            aria-label="Email address (Coming soon)"
           />
           <button
             type="submit"
-            disabled={status === "loading"}
-            className="px-6 py-2 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+            className="px-6 py-2 rounded-lg font-semibold transition-all opacity-50 cursor-not-allowed"
             style={{
-              backgroundColor: status === "success" ? "#10b981" : "var(--school-navy)",
+              backgroundColor: "var(--school-navy)",
               color: "white",
             }}
           >
-            {status === "loading" ? "Subscribing..." : status === "success" ? "Subscribed!" : "Subscribe"}
+            Coming Soon
           </button>
         </div>
         {message && (
