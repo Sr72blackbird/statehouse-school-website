@@ -39,10 +39,13 @@ Vercel should auto-detect Next.js, but verify these settings:
 - If not, select it from the dropdown
 
 ### Root Directory
+**IMPORTANT**: You MUST set this in the Vercel dashboard:
 1. Click **"Edit"** next to "Root Directory"
-2. Click **"Other"**
+2. Click **"Other"** (or select "Other" from dropdown)
 3. Type: `frontend`
 4. Click **"Continue"**
+
+**Note**: Do NOT add `rootDirectory` to `vercel.json` - it will cause an error. Set it only in the dashboard.
 
 ### Build and Output Settings
 These should auto-populate, but verify:
