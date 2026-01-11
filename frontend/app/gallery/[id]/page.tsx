@@ -209,10 +209,12 @@ export default async function GalleryAlbumPage({
     const image = item.attributes.image;
     if (image && !image.data) {
       // Image is flat, wrap it
-      item.attributes.image = { data: { attributes: image as Media } };
+      // TypeScript: image is flat { url: string } or similar, convert via unknown
+      item.attributes.image = { data: { attributes: image as unknown as Media } };
     } else if (image && image.data && !image.data.attributes) {
       // Image.data is flat, wrap it
-      item.attributes.image = { data: { attributes: image.data as Media } };
+      // TypeScript: image.data is flat { url: string } or similar, convert via unknown
+      item.attributes.image = { data: { attributes: image.data as unknown as Media } };
     }
     return item;
   });
