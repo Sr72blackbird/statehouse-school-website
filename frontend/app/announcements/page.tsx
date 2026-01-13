@@ -50,7 +50,17 @@ export default async function AnnouncementsPage() {
     );
   } catch (error) {
     console.error("Error fetching announcements:", error);
-    response = { data: [] };
+    response = { 
+      data: [],
+      meta: {
+        pagination: {
+          page: 1,
+          pageSize: 0,
+          pageCount: 0,
+          total: 0,
+        },
+      },
+    };
   }
 
   let announcements = response.data || [];
