@@ -25,7 +25,16 @@ export default async function Home() {
     "/about-the-school?populate=*"
   );
 
-  const data = about.data;
+  const data = about.data || {
+    School_name: "Statehouse School",
+    history: null,
+    mission: null,
+    vision: null,
+    core_values: null,
+    established_year: null,
+    logo: null,
+    profile_image: null,
+  };
 
   const logoUrl = getStrapiMediaUrl(data.logo?.url);
   const profileUrl = getStrapiMediaUrl(data.profile_image?.url);

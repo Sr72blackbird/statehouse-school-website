@@ -42,9 +42,16 @@ type AnnouncementsResponse = {
 };
 
 export default async function AnnouncementsPage() {
-  const response = await fetchFromStrapi<AnnouncementsResponse>(
-    "/announcements?populate=*&sort=Date:desc&filters[Published][$eq]=true"
-  );
+  let response: AnnouncementsResponse;
+  
+  try {
+    response = await fetchFromStrapi<AnnouncementsResponse>(
+      "/announcements?populate=*&sort=Date:desc&filters[Published][$eq]=true"
+    );
+  } catch (error) {
+    console.error("Error fetching announcements:", error);
+    response = { data: [] };
+  }
 
   let announcements = response.data || [];
 

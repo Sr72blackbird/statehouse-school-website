@@ -37,6 +37,15 @@ export async function fetchFromStrapi<T>(
         hasToken: !!STRAPI_API_TOKEN,
         url: `${STRAPI_URL}/api${endpoint}`,
       });
+      
+      // For 404 errors, return null data instead of throwing
+      // This allows the build to complete even if Strapi isn't ready
+      if (res.status === 404) {
+        console.warn(`Strapi endpoint not found (404): ${endpoint}. Returning null data.`);
+        // Return null data - pages should handle this gracefully
+        return { data: null } as T;
+      }
+      
       throw new Error(errorMessage);
     }
 
