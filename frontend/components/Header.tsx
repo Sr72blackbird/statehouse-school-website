@@ -20,7 +20,10 @@ export default async function Header() {
     "/about-the-school?populate=logo"
   );
 
-  const data = about.data;
+  const data = about.data || {
+    School_name: "Statehouse School",
+    logo: null,
+  };
 
   const logoUrl = getStrapiMediaUrl(data.logo?.url);
 
