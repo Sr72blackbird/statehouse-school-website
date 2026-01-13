@@ -12,7 +12,7 @@ type AboutSchool = {
 };
 
 type AboutSchoolResponse = {
-  data: AboutSchool;
+  data: AboutSchool | null;
 };
 
 export default async function Header() {
