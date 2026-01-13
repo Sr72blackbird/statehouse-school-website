@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const response = await fetchFromStrapi<AdmissionsPageResponse>(
       "/admissions-page?populate=*"
     );
-    const title = response.data.title;
+    const title = response.data?.title || "Admissions";
     
     return {
       title: "Admissions",
@@ -50,7 +50,12 @@ export default async function AdmissionsPage() {
     "/admissions-page?populate=*"
   );
 
-  const data = response.data;
+  const data = response.data || {
+    title: "Admissions",
+    introduction: [],
+    process: null,
+    contact_info: null,
+  };
 
   return (
     <main
