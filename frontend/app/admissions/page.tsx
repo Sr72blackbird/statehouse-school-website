@@ -46,16 +46,24 @@ type AdmissionsPageResponse = {
 };
 
 export default async function AdmissionsPage() {
-  const response = await fetchFromStrapi<AdmissionsPageResponse>(
-    "/admissions-page?populate=*"
-  );
-
-  const data = response.data || {
+  let data: AdmissionsPage = {
     title: "Admissions",
     introduction: [],
     process: null,
     contact_info: null,
   };
+
+  try {
+    const response = await fetchFromStrapi<AdmissionsPageResponse>(
+      "/admissions-page?populate=*"
+    );
+    if (response.data) {
+      data = response.data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch admissions page data:", error);
+    // Continue with default data
+  }
 
   return (
     <main

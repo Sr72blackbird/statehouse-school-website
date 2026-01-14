@@ -34,20 +34,23 @@ type GalleryAlbumsResponse = {
 };
 
 export default async function GalleryPage() {
-  const response = await fetchFromStrapi<GalleryAlbumsResponse>(
-    "/gallery-albums?populate=*&sort=order:asc,event_date:desc"
-  );
+  let albums: GalleryAlbum[] = [];
 
-  let albums = response.data || [];
+  try {
+    const response = await fetchFromStrapi<GalleryAlbumsResponse>(
+      "/gallery-albums?populate=*&sort=order:asc,event_date:desc"
+    );
 
-  // Check if data structure is flat (like admission requirements)
-  if (albums.length > 0 && !albums[0].attributes) {
-    // Data is flat, need to transform it
-    albums = albums.map((album: any) => ({
-      id: album.id,
-      attributes: {
-        title: album.title,
-        description: album.description,
+    albums = response.data || [];
+
+    // Check if data structure is flat (like admission requirements)
+    if (albums.length > 0 && !albums[0].attributes) {
+      // Data is flat, need to transform it
+      albums = albums.map((album: any) => ({
+        id: album.id,
+        attributes: {
+          title: album.title,
+          description: album.description,
         cover_image: album.cover_image,
         event_date: album.event_date,
         order: album.order,
@@ -109,6 +112,10 @@ export default async function GalleryPage() {
     
     return album;
   });
+  } catch (error) {
+    console.error("Error loading gallery data:", error);
+    // Continue with empty array
+  }
 
   return (
     <main
