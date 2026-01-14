@@ -1,11 +1,4 @@
 services:
-  # PostgreSQL Database for Strapi
-  - type: postgres
-    name: statehouse-strapi-db
-    plan: starter
-    databaseName: strapi
-    user: strapi
-
   # Strapi CMS Backend
   - type: web
     name: statehouse-strapi
@@ -23,17 +16,19 @@ services:
       - key: DATABASE_CLIENT
         value: postgres
       - key: DATABASE_URL
-        fromDatabase:
-          name: statehouse-strapi-db
-          property: connectionString
+        value: your_postgresql_connection_string_here  # Replace with actual DB URL
       - key: DATABASE_SSL
         value: true
-      # Generate these keys and add them manually in Render dashboard
-      # APP_KEYS, API_TOKEN_SALT, ADMIN_JWT_SECRET, JWT_SECRET, TRANSFER_TOKEN_SALT
+      - key: APP_KEYS
+        value: B8tJe3pAhN0Cptj+7R6Bgb22RCitJBTcZ578iZ1OFQ8=,wrlEak3JaySiDiBA3bEellWNxNzBv/Mx4+A0mfJnhNc=,mP+pHTYesJ0szYchqdlq5YOJMz+FQfTNYLRKw7baFbw=,ZCC5D9vmJ7dj27mpdy+nc1vS1kAfQ/SapoesgCKCitxc=
+      - key: API_TOKEN_SALT
+        value: WqY1NgmlMpsQCzjxDJbcUAnp0HwL5/TlvZc/YVC1HuI=
+      - key: ADMIN_JWT_SECRET
+        value: eYOdCXuVhYexLPxKTlcQui7K7PNvebFTWjdcyGDJLXY=
+      - key: TRANSFER_TOKEN_SALT
+        value: y32Cej6EaFoF30w5753lcY2RmfFZfMBlh1lJXjZ2LYA=
       - key: WEBHOOKS_POPULATE_RELATIONS
         value: false
-      # CORS_ORIGIN will be set manually after frontend is deployed
-      # Format: https://your-frontend.onrender.com,http://localhost:3000
     healthCheckPath: /api/health
     autoDeploy: true
 
@@ -47,8 +42,5 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # Set these manually in Render dashboard after Strapi is deployed:
-      # NEXT_PUBLIC_STRAPI_URL=https://statehouse-strapi.onrender.com
-      # STRAPI_API_TOKEN=<your-api-token-from-strapi>
     healthCheckPath: /
     autoDeploy: true
