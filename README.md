@@ -124,16 +124,30 @@ See [STRAPI_GUIDE.md](./STRAPI_GUIDE.md) for detailed instructions on managing c
 
 ## Deployment
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+### Step 1: Deploy Strapi Backend
+
+**Before deploying the frontend, you must deploy Strapi first!**
+
+- **Quick Guide**: See [STRAPI_QUICK_DEPLOY.md](./STRAPI_QUICK_DEPLOY.md) (10 minutes)
+- **Detailed Guide**: See [STRAPI_DEPLOY_GUIDE.md](./STRAPI_DEPLOY_GUIDE.md) (comprehensive)
+
+After deploying Strapi, you'll need:
+- Your Strapi URL (e.g., `https://your-strapi.onrender.com`)
+- An API token from Strapi admin panel
+
+### Step 2: Deploy Frontend
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed frontend deployment instructions.
 
 ### Quick Deploy to Vercel
 
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Set environment variables:
-   - `NEXT_PUBLIC_STRAPI_URL`
-   - `STRAPI_API_TOKEN`
-4. Deploy!
+1. **Deploy Strapi first** (see guides above)
+2. Push your code to GitHub
+3. Import project in Vercel
+4. Set environment variables:
+   - `NEXT_PUBLIC_STRAPI_URL`: Your deployed Strapi URL
+   - `STRAPI_API_TOKEN`: Your API token from Strapi
+5. Deploy!
 
 ## Performance Optimizations
 

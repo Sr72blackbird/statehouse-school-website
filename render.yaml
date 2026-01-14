@@ -1,4 +1,42 @@
 services:
+  # PostgreSQL Database for Strapi
+  - type: pspg
+    name: statehouse-strapi-db
+    plan: starter
+    databaseName: strapi
+    user: strapi
+
+  # Strapi CMS Backend
+  - type: web
+    name: statehouse-strapi
+    env: node
+    plan: starter
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 1337
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_CLIENT
+        value: postgres
+      - key: DATABASE_URL
+        fromDatabase:
+          name: statehouse-strapi-db
+          property: connectionString
+      - key: DATABASE_SSL
+        value: true
+      # Generate these keys and add them manually in Render dashboard
+      # APP_KEYS, API_TOKEN_SALT, ADMIN_JWT_SECRET, JWT_SECRET, TRANSFER_TOKEN_SALT
+      - key: WEBHOOKS_POPULATE_RELATIONS
+        value: false
+      # CORS_ORIGIN will be set manually after frontend is deployed
+      # Format: https://your-frontend.onrender.com,http://localhost:3000
+    healthCheckPath: /api/health
+    autoDeploy: true
+
   # Frontend Next.js Application
   - type: web
     name: statehouse-school-frontend
@@ -9,9 +47,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: NEXT_PUBLIC_STRAPI_URL
-        sync: false
-      - key: STRAPI_API_TOKEN
-        sync: false
+      # Set these manually in Render dashboard after Strapi is deployed:
+      # NEXT_PUBLIC_STRAPI_URL=https://statehouse-strapi.onrender.com
+      # STRAPI_API_TOKEN=<your-api-token-from-strapi>
     healthCheckPath: /
     autoDeploy: true

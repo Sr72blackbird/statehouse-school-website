@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const about = await fetchFromStrapi<AboutSchoolResponse>(
       "/about-the-school?populate=logo"
     );
-    const schoolName = about.data.School_name;
+    const schoolName = about.data?.School_name || "Our School";
     
     return {
       title: "About",
@@ -51,14 +51,22 @@ type AboutSchoolResponse = {
 };
 
 export default async function AboutPage() {
-  const about = await fetchFromStrapi<AboutSchoolResponse>(
-    "/about-the-school?populate=*"
-  );
+  let data: AboutSchool | null = null;
 
-  const data = about.data;
+  try {
+    const about = await fetchFromStrapi<AboutSchoolResponse>(
+      "/about-the-school?populate=*"
+    );
+    data = about.data;
+  } catch (error) {
+    console.error("Failed to fetch about data:", error);
+    // Continue with null data - page will render with fallback content
+  }
 
-  const logoUrl = getStrapiMediaUrl(data.logo?.url);
-  const profileUrl = getStrapiMediaUrl(data.profile_image?.url);
+  // Default values for when data is not available
+  const schoolName = data?.School_name || "Our School";
+  const logoUrl = data ? getStrapiMediaUrl(data.logo?.url) : null;
+  const profileUrl = data ? getStrapiMediaUrl(data.profile_image?.url) : null;
 
   return (
     <main
@@ -74,9 +82,9 @@ export default async function AboutPage() {
             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
             style={{ color: "var(--school-navy)" }}
           >
-            About {data.School_name}
+            About {schoolName}
           </h1>
-          {data.established_year && (
+          {data?.established_year && (
             <p className="text-lg sm:text-xl text-slate-700">
               Established in {data.established_year}
             </p>
@@ -87,7 +95,7 @@ export default async function AboutPage() {
           <div className="mb-12">
             <img
               src={profileUrl}
-              alt={`${data.School_name} - School building`}
+              alt={`${schoolName} - School building`}
               className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
               loading="lazy"
               decoding="async"
@@ -97,7 +105,7 @@ export default async function AboutPage() {
       </section>
 
       {/* History Section */}
-      {data.history && (
+      {data?.history && (
         <section className="py-12 sm:py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2
@@ -117,7 +125,7 @@ export default async function AboutPage() {
       <section className="py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            {data.mission && (
+            {data?.mission && (
               <div>
                 <h3
                   className="text-2xl font-bold mb-4"
@@ -131,7 +139,7 @@ export default async function AboutPage() {
               </div>
             )}
 
-            {data.vision && (
+            {data?.vision && (
               <div>
                 <h3
                   className="text-2xl font-bold mb-4"
@@ -145,7 +153,7 @@ export default async function AboutPage() {
               </div>
             )}
 
-            {data.core_values && (
+            {data?.core_values && (
               <div>
                 <h3
                   className="text-2xl font-bold mb-4"
@@ -163,7 +171,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Location & Contact Section */}
-      {(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) && (
+      {(data?.location || data?.address || data?.phone || data?.email || data?.google_maps_embed_url) && (
         <section className="py-12 sm:py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2
@@ -174,7 +182,7 @@ export default async function AboutPage() {
             </h2>
             
             {/* Google Maps Embed */}
-            {data.google_maps_embed_url && (
+            {data?.google_maps_embed_url && (
               <div className="mb-6 sm:mb-8 bg-white p-4 sm:p-6 rounded-lg shadow-md">
                 <h3
                   className="text-lg sm:text-xl font-bold mb-3 sm:mb-4"
@@ -198,7 +206,7 @@ export default async function AboutPage() {
             )}
 
             <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
-              {data.location && (
+              {data?.location && (
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3
                     className="text-xl font-bold mb-3"
@@ -221,7 +229,7 @@ export default async function AboutPage() {
                   )}
                 </div>
               )}
-              {data.address && (
+              {data?.address && (
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3
                     className="text-xl font-bold mb-3"
@@ -232,7 +240,7 @@ export default async function AboutPage() {
                   <p className="text-slate-700 whitespace-pre-line">{data.address}</p>
                 </div>
               )}
-              {data.phone && (
+              {data?.phone && (
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3
                     className="text-xl font-bold mb-3"
@@ -249,7 +257,7 @@ export default async function AboutPage() {
                   </a>
                 </div>
               )}
-              {data.email && (
+              {data?.email && (
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3
                     className="text-xl font-bold mb-3"
