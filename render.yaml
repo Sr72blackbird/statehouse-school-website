@@ -1,22 +1,22 @@
 services:
-  # Strapi CMS Backend
+  # Strapi CMS Backend (FREE)
   - type: web
     name: statehouse-strapi
     env: node
-    plan: starter
+    plan: starter  # FREE TIER
     buildCommand: cd backend && npm install && npm run build
     startCommand: cd backend && npm start
     envVars:
       - key: HOST
         value: 0.0.0.0
       - key: PORT
-        value: 1337
+        value: 10000
       - key: NODE_ENV
         value: production
       - key: DATABASE_CLIENT
         value: postgres
       - key: DATABASE_URL
-        value: your_postgresql_connection_string_here  # Replace with actual DB URL
+        value: YOUR_DATABASE_CONNECTION_STRING_HERE
       - key: DATABASE_SSL
         value: true
       - key: APP_KEYS
@@ -32,15 +32,19 @@ services:
     healthCheckPath: /api/health
     autoDeploy: true
 
-  # Frontend Next.js Application
+  # Frontend Next.js Application (FREE)
   - type: web
     name: statehouse-school-frontend
     env: node
-    plan: starter
+    plan: starter  # FREE TIER
     buildCommand: cd frontend && npm install && npm run build
     startCommand: cd frontend && npm start
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NEXT_PUBLIC_STRAPI_URL
+        value: YOUR_STRAPI_URL_HERE
+      - key: STRAPI_API_TOKEN
+        value: YOUR_API_TOKEN_HERE
     healthCheckPath: /
     autoDeploy: true
