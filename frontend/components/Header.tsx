@@ -16,25 +16,20 @@ type AboutSchoolResponse = {
 };
 
 export default async function Header() {
-  let data: AboutSchool = {
-    School_name: "Statehouse School",
-    logo: null,
-  };
+  let data: AboutSchool | null = null;
 
   try {
     const about = await fetchFromStrapi<AboutSchoolResponse>(
       "/about-the-school?populate=logo"
     );
-    
-    if (about?.data) {
-      data = about.data;
-    }
+    data = about.data;
   } catch (error) {
     console.error("Error loading header data:", error);
-    // Use default data already set above
+    // Continue with null data
   }
 
-  const logoUrl = getStrapiMediaUrl(data.logo?.url);
+  const logoUrl = data ? getStrapiMediaUrl(data.logo?.url) : null;
+  const schoolName = data?.School_name || "Statehouse School";
 
   return (
     <header>
@@ -46,7 +41,7 @@ export default async function Header() {
         {logoUrl && (
           <img
             src={logoUrl}
-            alt={`${data.School_name} logo`}
+            alt={`${schoolName} logo`}
             className="h-8 sm:h-10 md:h-12 w-auto"
             loading="eager"
             decoding="async"
@@ -55,7 +50,7 @@ export default async function Header() {
 
         <div className="text-center">
           <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold" id="site-title">
-            {data.School_name}
+            {schoolName}
           </h1>
           <p
             className="text-xs sm:text-sm"
