@@ -25,16 +25,19 @@ type AboutSchoolResponse = {
 };
 
 export default async function Footer() {
-  const about = await fetchFromStrapi<AboutSchoolResponse>(
-    "/about-the-school?populate=logo"
-  ).catch(() => null);
+  let data: AboutSchool | null = null;
 
-  if (!about) {
-    return null;
+  try {
+    const about = await fetchFromStrapi<AboutSchoolResponse>(
+      "/about-the-school?populate=*"
+    );
+    data = about.data;
+  } catch (error) {
+    console.error("Error loading footer data:", error);
+    // Continue with null data
   }
 
-  const data = about.data;
-  const logoUrl = getStrapiMediaUrl(data.logo?.url);
+  const logoUrl = data ? getStrapiMediaUrl(data.logo?.url) : null;
   const currentYear = new Date().getFullYear();
 
   return (
@@ -51,13 +54,13 @@ export default async function Footer() {
         style={{ backgroundColor: "var(--school-grey-strong)" }}
       >
         <div className="max-w-6xl mx-auto">
-          <div className={`grid gap-6 sm:gap-8 mb-6 sm:mb-8 ${(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) ? 'sm:grid-cols-2 md:grid-cols-3' : 'sm:grid-cols-2'}`}>
+          <div className={`grid gap-6 sm:gap-8 mb-6 sm:mb-8 ${(data?.location || data?.address || data?.phone || data?.email || data?.google_maps_embed_url) ? 'sm:grid-cols-2 md:grid-cols-3' : 'sm:grid-cols-2'}`}>
             {/* School Info */}
             <div>
               {logoUrl && (
                 <img
                   src={logoUrl}
-                  alt={`${data.School_name} logo`}
+                  alt={`${data?.School_name || 'School'} logo`}
                   className="h-10 w-auto mb-4"
                   loading="lazy"
                   decoding="async"
@@ -67,7 +70,7 @@ export default async function Footer() {
                 className="text-xl font-bold mb-2"
                 style={{ color: "var(--school-navy)" }}
               >
-                {data.School_name}
+                {data?.School_name || 'Statehouse School'}
               </h3>
               <p
                 className="text-sm"
@@ -114,7 +117,7 @@ export default async function Footer() {
             </nav>
 
             {/* Contact / Additional Info */}
-            {(data.location || data.address || data.phone || data.email || data.google_maps_embed_url) && (
+            {(data?.location || data?.address || data?.phone || data?.email || data?.google_maps_embed_url) && (
               <div>
                 <h4
                   className="text-lg font-semibold mb-4"
@@ -123,7 +126,7 @@ export default async function Footer() {
                   Contact Us
                 </h4>
                 <div className="space-y-2 text-sm text-slate-700">
-                  {data.location && (
+                  {data?.location && (
                     <p className="flex items-start">
                       <span className="mr-2">📍</span>
                       {data.google_maps_embed_url ? (
@@ -141,13 +144,13 @@ export default async function Footer() {
                       )}
                     </p>
                   )}
-                  {data.address && (
+                  {data?.address && (
                     <p className="flex items-start">
                       <span className="mr-2">🏫</span>
                       <span>{data.address}</span>
                     </p>
                   )}
-                  {data.phone && (
+                  {data?.phone && (
                     <p className="flex items-center">
                       <span className="mr-2">📞</span>
                       <a
@@ -159,7 +162,7 @@ export default async function Footer() {
                       </a>
                     </p>
                   )}
-                  {data.email && (
+                  {data?.email && (
                     <p className="flex items-center">
                       <span className="mr-2">✉️</span>
                       <a
@@ -171,7 +174,7 @@ export default async function Footer() {
                       </a>
                     </p>
                   )}
-                  {data.google_maps_embed_url && (
+                  {data?.google_maps_embed_url && (
                     <div className="mt-4">
                       <iframe
                         src={data.google_maps_embed_url}
@@ -188,7 +191,7 @@ export default async function Footer() {
                 </div>
                 
                 {/* Social Media Links */}
-                {(data.facebook_url || data.twitter_url || data.instagram_url || data.linkedin_url || data.youtube_url) && (
+                {(data?.facebook_url || data?.twitter_url || data?.instagram_url || data?.linkedin_url || data?.youtube_url) && (
                   <div className="mt-6">
                     <h4
                       className="text-lg font-semibold mb-3"
@@ -197,7 +200,7 @@ export default async function Footer() {
                       Follow Us
                     </h4>
                     <div className="flex gap-3">
-                      {data.facebook_url && (
+                      {data?.facebook_url && (
                         <a
                           href={data.facebook_url}
                           target="_blank"
@@ -209,7 +212,7 @@ export default async function Footer() {
                           📘
                         </a>
                       )}
-                      {data.twitter_url && (
+                      {data?.twitter_url && (
                         <a
                           href={data.twitter_url}
                           target="_blank"
@@ -221,7 +224,7 @@ export default async function Footer() {
                           🐦
                         </a>
                       )}
-                      {data.instagram_url && (
+                      {data?.instagram_url && (
                         <a
                           href={data.instagram_url}
                           target="_blank"
@@ -233,7 +236,7 @@ export default async function Footer() {
                           📷
                         </a>
                       )}
-                      {data.linkedin_url && (
+                      {data?.linkedin_url && (
                         <a
                           href={data.linkedin_url}
                           target="_blank"
@@ -245,7 +248,7 @@ export default async function Footer() {
                           💼
                         </a>
                       )}
-                      {data.youtube_url && (
+                      {data?.youtube_url && (
                         <a
                           href={data.youtube_url}
                           target="_blank"
@@ -272,7 +275,7 @@ export default async function Footer() {
         style={{ backgroundColor: "var(--school-navy)", color: "var(--school-sky)" }}
       >
         <p>
-          © {currentYear} {data.School_name}. All rights reserved.
+          © {currentYear} {data?.School_name || 'Statehouse School'}. All rights reserved.
         </p>
       </div>
     </footer>
