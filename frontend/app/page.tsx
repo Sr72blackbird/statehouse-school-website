@@ -21,11 +21,7 @@ type AboutSchoolResponse = {
 };
 
 export default async function Home() {
-  const about = await fetchFromStrapi<AboutSchoolResponse>(
-    "/about-the-school?populate=*"
-  );
-
-  const data = about.data || {
+  let data: AboutSchool = {
     School_name: "Statehouse School",
     history: null,
     mission: null,
@@ -35,6 +31,18 @@ export default async function Home() {
     logo: null,
     profile_image: null,
   };
+
+  try {
+    const about = await fetchFromStrapi<AboutSchoolResponse>(
+      "/about-the-school?populate=*"
+    );
+    if (about.data) {
+      data = about.data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch about data:", error);
+    // Continue with default data
+  }
 
   const logoUrl = getStrapiMediaUrl(data.logo?.url);
   const profileUrl = getStrapiMediaUrl(data.profile_image?.url);
