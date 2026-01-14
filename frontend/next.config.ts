@@ -16,8 +16,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Enable static optimization
-  output: "standalone",
   // Optimize production builds
   compress: true,
   // Enable React strict mode
