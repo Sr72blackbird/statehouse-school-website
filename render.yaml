@@ -1,6 +1,6 @@
 services:
   # PostgreSQL Database for Strapi
-  - type: pspg
+  - type: pgsql
     name: statehouse-strapi-db
     plan: starter
     databaseName: strapi
