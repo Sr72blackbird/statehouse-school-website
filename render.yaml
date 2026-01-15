@@ -26,7 +26,7 @@ services:
   - type: web
     name: statehouse-strapi
     env: node
-    plan: hobby  # FREE TIER
+    plan: free  # FREE TIER
     buildCommand: cd backend && npm install && npm run build
     startCommand: cd backend && npm start
     envVars:
@@ -40,6 +40,7 @@ services:
         value: postgres
       - key: DATABASE_URL
         value: postgresql://statehouse_boys_website_user:2XhLTYJClJpYut9cCVyxk5sBppDgSa3w@dpg-d5junoi4d50c73d9m3ng-a/statehouse_boys_website
+      - key: DATABASE_SSL
         value: true
       - key: APP_KEYS
         value: a9be19111951b2d377df6598af67418a,a1c76a71b2fa1a112a894af435393ae0,b353195fc8c102c6e5de1299bc452216,837cd190f7fe490426c1f269f6cd1df4  # ← REPLACE WITH 4 GENERATED KEYS (comma-separated, no spaces)
@@ -69,7 +70,7 @@ services:
   - type: web
     name: statehouse-school-frontend
     env: node
-    plan: hobby  # FREE TIER
+    plan: free  # FREE TIER
     buildCommand: cd frontend && npm install && npm run build
     startCommand: cd frontend && npm start
     envVars:
