@@ -39,7 +39,7 @@ services:
       - key: DATABASE_CLIENT
         value: postgres
       - key: DATABASE_URL
-        value: postgresql://statehouse_boys_website_user:2XhLTYJClJpYut9cCVyxk5sBppDgSa3w@dpg-d5junoi4d50c73d9m3ng-a/statehouse_boys_website
+        value: postgresql://strapi:b0OpKLDS7RM8fZ5ApREjRNGRO9IEbguL@dpg-d5klek1r0fns73bh1aug-a/strapi_r9vy
       - key: DATABASE_SSL
         value: true
       - key: APP_KEYS
