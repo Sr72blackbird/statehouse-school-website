@@ -1,1 +1,7 @@
-{}
+{
+  "name": "statehouse-school-website",
+  "private": true,
+  "dependencies": {
+    "@strapi/strapi": "5.33.1"
+  }
+}

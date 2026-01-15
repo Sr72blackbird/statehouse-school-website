@@ -1,9 +1,32 @@
+# ============================================================================
+# BEFORE DEPLOYING: FOLLOW THESE STEPS
+# ============================================================================
+# 1. CREATE POSTGRESQL DATABASE:
+#    - Go to render.com → Click "New +" → "PostgreSQL"
+#    - Copy the INTERNAL database URL (starts with postgresql://)
+#    - Replace DATABASE_URL value below with your actual URL
+#
+# 2. GENERATE SECURE KEYS:
+#    Visit https://generate-secret.vercel.app/32 and generate 6 random keys.
+#    Then replace these values:
+#    - APP_KEYS: Paste 4 keys separated by commas (use the first 4 generated)
+#    - API_TOKEN_SALT: Paste key #5
+#    - ADMIN_JWT_SECRET: Paste key #6
+#    - TRANSFER_TOKEN_SALT: Generate a new one and paste
+#    - JWT_SECRET: Generate a new one and paste (add new line below TRANSFER_TOKEN_SALT)
+#
+# 3. UPLOAD BLUEPRINT:
+#    - Go to render.com → Click "New +" → "Blueprint"
+#    - Upload this file or connect your GitHub repo
+#    - Click "Apply" and fill in any missing variables when prompted
+# ============================================================================
+
 services:
   # Strapi CMS Backend (FREE)
   - type: web
     name: statehouse-strapi
     env: node
-    plan: starter  # FREE TIER
+    plan: hobby  # FREE TIER
     buildCommand: cd backend && npm install && npm run build
     startCommand: cd backend && npm start
     envVars:
@@ -16,35 +39,45 @@ services:
       - key: DATABASE_CLIENT
         value: postgres
       - key: DATABASE_URL
-        value: YOUR_DATABASE_CONNECTION_STRING_HERE
-      - key: DATABASE_SSL
+        value: postgresql://statehouse_boys_website_user:2XhLTYJClJpYut9cCVyxk5sBppDgSa3w@dpg-d5junoi4d50c73d9m3ng-a/statehouse_boys_website
         value: true
       - key: APP_KEYS
-        value: B8tJe3pAhN0Cptj+7R6Bgb22RCitJBTcZ578iZ1OFQ8=,wrlEak3JaySiDiBA3bEellWNxNzBv/Mx4+A0mfJnhNc=,mP+pHTYesJ0szYchqdlq5YOJMz+FQfTNYLRKw7baFbw=,ZCC5D9vmJ7dj27mpdy+nc1vS1kAfQ/SapoesgCKCitxc=
+        value: a9be19111951b2d377df6598af67418a,a1c76a71b2fa1a112a894af435393ae0,b353195fc8c102c6e5de1299bc452216,837cd190f7fe490426c1f269f6cd1df4  # ← REPLACE WITH 4 GENERATED KEYS (comma-separated, no spaces)
       - key: API_TOKEN_SALT
-        value: WqY1NgmlMpsQCzjxDJbcUAnp0HwL5/TlvZc/YVC1HuI=
+        value: c476e156ef8aac429ffef585af4e8914  # ← REPLACE WITH 5TH GENERATED KEY
       - key: ADMIN_JWT_SECRET
-        value: eYOdCXuVhYexLPxKTlcQui7K7PNvebFTWjdcyGDJLXY=
+        value: 05ab042864ba1560e9d6972e55968373  # ← REPLACE WITH 6TH GENERATED KEY
+      - key: JWT_SECRET
+        value: 15edd04356c7d22b94cd07625573d8af  # ← REPLACE WITH NEW GENERATED KEY
       - key: TRANSFER_TOKEN_SALT
-        value: y32Cej6EaFoF30w5753lcY2RmfFZfMBlh1lJXjZ2LYA=
+        value: e24bc27e6aa2250d51615c97567e3be2  # ← REPLACE WITH NEW GENERATED KEY
       - key: WEBHOOKS_POPULATE_RELATIONS
         value: false
     healthCheckPath: /api/health
     autoDeploy: true
 
-  # Frontend Next.js Application (FREE)
+  # ========================================================================
+  # Frontend Next.js Application (Deploy AFTER Strapi is running)
+  # ========================================================================
+  # BEFORE DEPLOYING:
+  # 1. Deploy Strapi first (above service)
+  # 2. Get your Strapi URL: https://statehouse-strapi.onrender.com (or similar)
+  # 3. Create API Token in Strapi: Settings → API Tokens → Create new
+  # 4. Copy the token and replace STRAPI_API_TOKEN below
+  # 5. Replace NEXT_PUBLIC_STRAPI_URL with your actual Strapi URL
+  # ========================================================================
   - type: web
     name: statehouse-school-frontend
     env: node
-    plan: starter  # FREE TIER
+    plan: hobby  # FREE TIER
     buildCommand: cd frontend && npm install && npm run build
     startCommand: cd frontend && npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_STRAPI_URL
-        value: YOUR_STRAPI_URL_HERE
+        value: https://statehouse-strapi.onrender.com  # ← REPLACE WITH YOUR ACTUAL STRAPI URL
       - key: STRAPI_API_TOKEN
-        value: YOUR_API_TOKEN_HERE
+        value: a1fed3a41a90009ecba75ab496dfa668e6d2387253eb2af89c07e15d55573d5be6e646d3a8d5958b94fd3888b770c6ccce644bf7c3114fedf514e157e3acebefa7a41f28ef3ec6eec59655cc037aac7e043ddda01e97a28f3a9be0206ff1dd12485f563685c3d6d60395d7378611405a161954beaa478b4584435f753b2a7bc0  # ← REPLACE WITH API TOKEN FROM STRAPI
     healthCheckPath: /
     autoDeploy: true
