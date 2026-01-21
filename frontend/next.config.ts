@@ -11,7 +11,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "statehouse-school-website.onrender.com",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.onrender.com",
         pathname: "/uploads/**",
       },
     ],
