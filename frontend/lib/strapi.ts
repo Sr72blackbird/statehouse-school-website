@@ -1,6 +1,9 @@
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 
+// Timeout for fetch requests (15 seconds to avoid long build waits)
+const FETCH_TIMEOUT = 15000;
+
 /**
  * Generic fetch helper for Strapi REST API
  */
@@ -18,14 +21,21 @@ export async function fetchFromStrapi<T>(
     headers["Authorization"] = `Bearer ${STRAPI_API_TOKEN}`;
   }
 
+  // Create abort controller for timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+
   try {
     const res = await fetch(`${STRAPI_URL}/api${endpoint}`, {
       ...options,
       headers,
+      signal: controller.signal,
       // Use revalidate for ISR (Incremental Static Regeneration)
-      // Revalidate every 60 seconds in production, no cache in development
-      next: { revalidate: process.env.NODE_ENV === "production" ? 60 : 0 },
+      // Revalidate every 5 minutes in production, no cache in development
+      next: { revalidate: process.env.NODE_ENV === "production" ? 300 : 0 },
     });
+    
+    clearTimeout(timeoutId);
 
     if (!res.ok) {
       const errorText = await res.text().catch(() => res.statusText);
@@ -46,22 +56,42 @@ export async function fetchFromStrapi<T>(
         return { data: null } as T;
       }
       
+      // For 502/503/504 errors (service unavailable/waking up), return null data
+      // This allows builds to complete even when Strapi is spinning up
+      if (res.status >= 500) {
+        console.warn(`Strapi server error (${res.status}): ${endpoint}. Returning null data for build resilience.`);
+        return { data: null } as T;
+      }
+      
       throw new Error(errorMessage);
     }
 
     return res.json();
   } catch (error) {
     // Handle network errors or fetch failures
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      const errorMessage = `Network error: Unable to connect to Strapi at ${STRAPI_URL}. Please ensure Strapi is running.`;
-      console.error(errorMessage, {
+    // During builds, return null data instead of failing
+    const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
+    const isTimeoutError = error instanceof Error && (
+      error.message.includes('timeout') || 
+      error.message.includes('ETIMEDOUT') ||
+      error.message.includes('ECONNREFUSED')
+    );
+    
+    if (isNetworkError || isTimeoutError) {
+      console.warn(`Network/timeout error fetching ${endpoint}. Returning null data for build resilience.`, {
         endpoint,
         url: `${STRAPI_URL}/api${endpoint}`,
-        originalError: error,
       });
-      throw new Error(errorMessage);
+      return { data: null } as T;
     }
-    // Re-throw other errors
+    
+    // For other errors during build, also return null data
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+      console.warn(`Build-time fetch error for ${endpoint}. Returning null data.`, error);
+      return { data: null } as T;
+    }
+    
+    // Re-throw other errors in development
     throw error;
   }
 }
