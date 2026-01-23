@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
+import MobileNav from "./MobileNav";
 // import SearchBar from "./SearchBar"; // Hidden for now
 
 type Media = {
@@ -70,10 +71,11 @@ export default async function Header() {
 
       {/* Navigation bar - Transparent, overlays hero image */}
       <nav
-        className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 md:gap-6 py-3 sm:py-4 text-xs sm:text-sm font-medium px-4"
+        className="flex justify-between items-center py-3 sm:py-4 px-4 md:px-6"
         aria-label="Main navigation"
       >
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex flex-wrap justify-center gap-2 md:gap-4 mx-auto">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/admissions">Admissions</NavLink>
@@ -82,6 +84,11 @@ export default async function Header() {
           <NavLink href="/staff">Staff</NavLink>
           <NavLink href="/announcements">Announcements</NavLink>
           <NavLink href="/gallery">Gallery</NavLink>
+        </div>
+
+        {/* Mobile Navigation Toggle */}
+        <div className="lg:hidden ml-auto">
+          <MobileNav />
         </div>
       </nav>
     </header>
