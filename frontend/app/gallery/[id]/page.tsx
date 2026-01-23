@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -225,90 +226,95 @@ export default async function GalleryAlbumPage({
     return orderA - orderB;
   });
 
+  // Get first image URL for hero background
+  const firstImageUrl = sortedItems.length > 0 && sortedItems[0].attributes.image?.data?.attributes?.url
+    ? getStrapiMediaUrl(sortedItems[0].attributes.image.data.attributes.url)
+    : null;
+
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title={album.attributes.title}
+          subtitle={album.attributes.event_date 
+            ? new Date(album.attributes.event_date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : undefined
+          }
+          backgroundImage={firstImageUrl || undefined}
+        />
+      </section>
 
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <Link
-          href="/gallery"
-          className="inline-block mb-6 sm:mb-8 text-slate-600 hover:text-slate-900 text-sm sm:text-base"
-        >
-          ← Back to Gallery
-        </Link>
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <Link
+            href="/gallery"
+            className="inline-flex items-center gap-2 mb-6 sm:mb-8 text-slate-600 hover:text-slate-900 text-sm sm:text-base transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Gallery
+          </Link>
 
-        <h1
-          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
-          style={{ color: "var(--school-navy)" }}
-        >
-          {album.attributes.title}
-        </h1>
+          {album.attributes.description && (
+            <div className="prose prose-lg max-w-none mb-8">
+              {renderBlocks(album.attributes.description)}
+            </div>
+          )}
 
-        {album.attributes.event_date && (
-          <p className="text-slate-600 mb-6">
-            {new Date(album.attributes.event_date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-        )}
+          {sortedItems.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-700">No photos in this album yet.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sortedItems.map((item) => {
+                const imageUrl = item.attributes.image?.data?.attributes?.url
+                  ? getStrapiMediaUrl(item.attributes.image.data.attributes.url)
+                  : null;
 
-        {album.attributes.description && (
-          <div className="prose prose-lg max-w-none mb-8">
-            {renderBlocks(album.attributes.description)}
-          </div>
-        )}
+                if (!imageUrl) return null;
 
-        {sortedItems.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-slate-700">No photos in this album yet.</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedItems.map((item) => {
-              const imageUrl = item.attributes.image?.data?.attributes?.url
-                ? getStrapiMediaUrl(item.attributes.image.data.attributes.url)
-                : null;
-
-              if (!imageUrl) return null;
-
-              return (
-                <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src={imageUrl}
-                      alt={item.attributes.title 
-                        ? `${item.attributes.title}${item.attributes.caption ? ` - ${item.attributes.caption}` : ''}`
-                        : `Gallery image ${item.id}`}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  {(item.attributes.title || item.attributes.caption) && (
-                    <div className="p-4">
-                      {item.attributes.title && (
-                        <h3
-                          className="font-semibold mb-1"
-                          style={{ color: "var(--school-navy)" }}
-                        >
-                          {item.attributes.title}
-                        </h3>
-                      )}
-                      {item.attributes.caption && (
-                        <p className="text-sm text-slate-600">{item.attributes.caption}</p>
-                      )}
+                return (
+                  <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                    <div className="aspect-square overflow-hidden">
+                      <img
+                        src={imageUrl}
+                        alt={item.attributes.title 
+                          ? `${item.attributes.title}${item.attributes.caption ? ` - ${item.attributes.caption}` : ''}`
+                          : `Gallery image ${item.id}`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
+                    {(item.attributes.title || item.attributes.caption) && (
+                      <div className="p-4">
+                        {item.attributes.title && (
+                          <h3
+                            className="font-semibold mb-1"
+                            style={{ color: "var(--school-navy)" }}
+                          >
+                            {item.attributes.title}
+                          </h3>
+                        )}
+                        {item.attributes.caption && (
+                          <p className="text-sm text-slate-600">{item.attributes.caption}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </section>
 
       <Footer />

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import Link from "next/link";
@@ -167,29 +168,27 @@ export default async function SearchPage({
   const query = params.q || "";
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-      role="main"
-    >
-      <Header />
-      
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <Breadcrumbs
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Search", href: `/search${query ? `?q=${encodeURIComponent(query)}` : ''}` },
-          ]}
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }} role="main">
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title="Search"
+          subtitle={query ? `Results for "${query}"` : "Find what you're looking for"}
         />
-        
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          Search
-        </h1>
+      </section>
 
-        <SearchResults searchParams={searchParams} />
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Search", href: `/search${query ? `?q=${encodeURIComponent(query)}` : ''}` },
+            ]}
+          />
+
+          <SearchResults searchParams={searchParams} />
+        </div>
       </section>
 
       <Footer />

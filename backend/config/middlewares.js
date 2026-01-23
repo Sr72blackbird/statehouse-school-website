@@ -20,7 +20,7 @@ module.exports = [
     config: {
       origin: process.env.CORS_ORIGIN 
         ? process.env.CORS_ORIGIN.split(',')
-        : ['http://localhost:3000', 'http://localhost:3001'],
+        : ['http://localhost:3000', 'http://localhost:3001', 'https://*.vercel.app'],
       credentials: true,
     },
   },

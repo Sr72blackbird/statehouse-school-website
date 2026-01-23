@@ -32,7 +32,7 @@ export default async function Header() {
   const schoolName = data?.School_name || "Statehouse School";
 
   return (
-    <header>
+    <header className="absolute top-0 left-0 right-0 z-20">
       {/* Top school identity bar */}
       <div
         className="flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4"
@@ -68,13 +68,12 @@ export default async function Header() {
         style={{ backgroundColor: "var(--uniform-accent)" }}
       />
 
-      {/* Navigation bar */}
+      {/* Navigation bar - Transparent, overlays hero image */}
       <nav
-        className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 md:gap-6 py-2 sm:py-3 text-xs sm:text-sm font-medium px-4"
-        style={{ backgroundColor: "var(--school-grey-strong)" }}
+        className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 md:gap-6 py-3 sm:py-4 text-xs sm:text-sm font-medium px-4"
         aria-label="Main navigation"
       >
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 md:gap-6">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/admissions">Admissions</NavLink>
@@ -84,10 +83,6 @@ export default async function Header() {
           <NavLink href="/announcements">Announcements</NavLink>
           <NavLink href="/gallery">Gallery</NavLink>
         </div>
-        {/* SearchBar hidden for now */}
-        {/* <div className="w-full sm:w-auto mt-2 sm:mt-0">
-          <SearchBar />
-        </div> */}
       </nav>
     </header>
   );
@@ -103,8 +98,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="px-2 py-1 rounded hover:underline"
-      style={{ color: "var(--school-navy)" }}
+      className="nav-link-glow px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105"
     >
       {children}
     </Link>

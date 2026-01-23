@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -76,28 +77,26 @@ export default async function DepartmentsPage() {
   }
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title="Academic Departments"
+          subtitle="Explore our comprehensive academic structure"
+        />
+      </section>
 
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          Academic Departments
-        </h1>
-
-        {departments.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-slate-700 text-lg">No departments available.</p>
-          </div>
-        ) : (
-          <div className="space-y-8">
-            {departments.map((dept) => {
-              const hod = dept.attributes.hod?.data;
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {departments.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-700 text-lg">No departments available.</p>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {departments.map((dept) => {
+                const hod = dept.attributes.hod?.data;
               const hodPhotoUrl = hod?.attributes.photo?.data?.[0]?.attributes?.url
                 ? getStrapiMediaUrl(hod.attributes.photo.data[0].attributes.url)
                 : null;
@@ -148,6 +147,7 @@ export default async function DepartmentsPage() {
             })}
           </div>
         )}
+        </div>
       </section>
 
       <Footer />

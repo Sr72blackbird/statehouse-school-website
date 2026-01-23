@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 
 export const metadata: Metadata = {
@@ -130,24 +131,22 @@ export default async function AnnouncementsPage() {
   }
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title="Announcements"
+          subtitle="Stay updated with the latest news, notices, and events"
+        />
+      </section>
 
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          Announcements
-        </h1>
-
-        {announcements.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-slate-700 text-base sm:text-lg">No announcements at this time.</p>
-          </div>
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {announcements.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-700 text-base sm:text-lg">No announcements at this time.</p>
+            </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {announcements
@@ -234,6 +233,7 @@ export default async function AnnouncementsPage() {
             })}
           </div>
         )}
+        </div>
       </section>
 
       <Footer />

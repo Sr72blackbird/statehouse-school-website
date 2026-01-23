@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -69,44 +70,20 @@ export default async function AboutPage() {
   const profileUrl = data ? getStrapiMediaUrl(data.profile_image?.url) : null;
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
-
-      {/* Hero Section */}
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <div className="text-center mb-8 sm:mb-12">
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
-            style={{ color: "var(--school-navy)" }}
-          >
-            About {schoolName}
-          </h1>
-          {data?.established_year && (
-            <p className="text-lg sm:text-xl text-slate-700">
-              Established in {data.established_year}
-            </p>
-          )}
-        </div>
-
-        {profileUrl && (
-          <div className="mb-12">
-            <img
-              src={profileUrl}
-              alt={`${schoolName} - School building`}
-              className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        )}
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title={`About ${schoolName}`}
+          subtitle={data?.established_year ? `Established in ${data.established_year}` : undefined}
+          backgroundImage={profileUrl}
+        />
       </section>
 
       {/* History Section */}
       {data?.history && (
-        <section className="py-12 sm:py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
+        <section className="py-12 sm:py-16 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2
               className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6"

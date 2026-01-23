@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -66,24 +67,22 @@ export default async function AdmissionsPage() {
   }
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title={data.title}
+          subtitle="Join our school community"
+        />
+      </section>
 
-      {/* Hero Section */}
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          {data.title}
-        </h1>
-
-        {/* Introduction */}
-        <div className="mb-12 prose prose-lg max-w-none">
-          {renderBlocks(data.introduction)}
+      {/* Introduction */}
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="prose prose-lg max-w-none">
+            {renderBlocks(data.introduction)}
+          </div>
         </div>
       </section>
 

@@ -502,7 +502,8 @@ export interface ApiAboutTheSchoolAboutTheSchool
     mission: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     profile_image: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
+      'images' | 'files' | 'videos' | 'audios',
+      true
     >;
     publishedAt: Schema.Attribute.DateTime;
     School_name: Schema.Attribute.String & Schema.Attribute.Required;

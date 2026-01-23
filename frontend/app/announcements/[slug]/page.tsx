@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -205,66 +206,46 @@ export default async function AnnouncementDetailPage({
     : null;
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title={announcement.attributes.Title}
+          subtitle={announcement.attributes.Category || undefined}
+          backgroundImage={imageUrl || undefined}
+        />
+      </section>
 
-          <section className="max-w-4xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-            <Link
-              href="/announcements"
-              className="inline-block mb-6 sm:mb-8 text-slate-600 hover:text-slate-900 text-sm sm:text-base"
-            >
-              ← Back to Announcements
-            </Link>
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <Link
+            href="/announcements"
+            className="inline-flex items-center gap-2 mb-6 sm:mb-8 text-slate-600 hover:text-slate-900 text-sm sm:text-base transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Announcements
+          </Link>
 
-            {announcement.attributes.Category && (
-              <span
-                className="inline-block px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4"
-                style={{
-                  backgroundColor: "var(--school-sky)",
-                  color: "var(--school-navy)",
-                }}
-              >
-                {announcement.attributes.Category}
-              </span>
-            )}
+          {announcement.attributes.Date && (
+            <p className="text-slate-600 mb-6 text-sm">
+              Published on{" "}
+              {new Date(announcement.attributes.Date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          )}
 
-            <h1
-              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
-              style={{ color: "var(--school-navy)" }}
-            >
-              {announcement.attributes.Title}
-            </h1>
-
-        {announcement.attributes.Date && (
-          <p className="text-slate-600 mb-8">
-            {new Date(announcement.attributes.Date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-        )}
-
-        {imageUrl && (
-          <div className="mb-8">
-            <img
-              src={imageUrl}
-              alt={`${announcement.attributes.Title}${announcement.attributes.Category ? ` - ${announcement.attributes.Category}` : ''}`}
-              className="w-full rounded-lg shadow-lg"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        )}
-
-        {announcement.attributes.Content && (
-          <div className="prose prose-lg max-w-none">
-            {renderBlocks(announcement.attributes.Content)}
-          </div>
-        )}
+          {announcement.attributes.Content && (
+            <div className="prose prose-lg max-w-none">
+              {renderBlocks(announcement.attributes.Content)}
+            </div>
+          )}
+        </div>
       </section>
 
       <Footer />

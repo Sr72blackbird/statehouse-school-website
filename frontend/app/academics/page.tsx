@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -114,29 +115,27 @@ export default async function AcademicsPage() {
   }
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title="Academics"
+          subtitle="Explore our comprehensive curriculum designed for excellence"
+        />
+      </section>
 
-          <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-            <h1
-              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
-              style={{ color: "var(--school-navy)" }}
-            >
-              Academics
-            </h1>
-
-        {/* CBC Pathways Section */}
-        {pathways.length > 0 && (
-          <div className="mb-16">
-            <h2
-              className="text-3xl font-bold mb-8"
-              style={{ color: "var(--school-navy)" }}
-            >
-              CBC Pathways
-            </h2>
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {/* CBC Pathways Section */}
+          {pathways.length > 0 && (
+            <div className="mb-16">
+              <h2
+                className="text-3xl font-bold mb-8"
+                style={{ color: "var(--school-navy)" }}
+              >
+                CBC Pathways
+              </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {pathways.map((pathway) => (
                 <div
@@ -215,6 +214,7 @@ export default async function AcademicsPage() {
             )}
           </div>
         )}
+        </div>
       </section>
 
       <Footer />

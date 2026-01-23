@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import { renderBlocks } from "@/lib/render-blocks";
 
@@ -94,40 +95,38 @@ export default async function StaffPage() {
   }
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title="Our Staff"
+          subtitle="Meet our dedicated educators committed to excellence"
+        />
+      </section>
 
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          Our Staff
-        </h1>
-
-        {categories.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-slate-700 text-lg">No staff categories available.</p>
-            {process.env.NODE_ENV === "development" && (
-              <p className="text-sm text-slate-500 mt-2">
-                Check the browser console for API response details.
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-16">
-            {categories.map((category) => {
-              // Handle both { data: [...] } and flat array structures
-              const staffMembersData = category.attributes.staff_members;
-              const membersArray = Array.isArray(staffMembersData) 
-                ? staffMembersData 
-                : (staffMembersData?.data || []);
-              
-              // Transform flat structure to expected structure if needed
-              const members = membersArray.map((member: any) => {
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {categories.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-700 text-lg">No staff categories available.</p>
+              {process.env.NODE_ENV === "development" && (
+                <p className="text-sm text-slate-500 mt-2">
+                  Check the browser console for API response details.
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-16">
+              {categories.map((category) => {
+                // Handle both { data: [...] } and flat array structures
+                const staffMembersData = category.attributes.staff_members;
+                const membersArray = Array.isArray(staffMembersData) 
+                  ? staffMembersData 
+                  : (staffMembersData?.data || []);
+                
+                // Transform flat structure to expected structure if needed
+                const members = membersArray.map((member: any) => {
                 // If member is already in the expected format with attributes, return as is
                 if (member.attributes) {
                   return member;
@@ -248,6 +247,7 @@ export default async function StaffPage() {
             })}
           </div>
         )}
+        </div>
       </section>
 
       <Footer />

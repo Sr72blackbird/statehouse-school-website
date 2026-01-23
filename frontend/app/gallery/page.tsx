@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 
 export const metadata: Metadata = {
@@ -118,26 +119,24 @@ export default async function GalleryPage() {
   }
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--school-grey)" }}
-    >
-      <Header />
+    <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
+      {/* Hero Section with Header */}
+      <section className="relative">
+        <Header />
+        <PageHero 
+          title="Gallery"
+          subtitle="Browse photos from school events, activities, and memorable moments"
+        />
+      </section>
 
-      <section className="max-w-6xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center"
-          style={{ color: "var(--school-navy)" }}
-        >
-          Gallery
-        </h1>
-
-        {albums.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-slate-700 text-lg">No gallery albums at this time.</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {albums.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-700 text-lg">No gallery albums at this time.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {albums.map((album) => {
               // Try multiple paths to get cover image URL
               let coverUrl: string | null = null;
@@ -215,6 +214,7 @@ export default async function GalleryPage() {
             })}
           </div>
         )}
+        </div>
       </section>
 
       <Footer />
