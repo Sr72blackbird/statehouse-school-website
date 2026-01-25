@@ -115,12 +115,10 @@ export default async function StaffPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {categories.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-slate-700 text-lg">No staff categories available.</p>
-              {process.env.NODE_ENV === "development" && (
-                <p className="text-sm text-slate-500 mt-2">
-                  Check the browser console for API response details.
-                </p>
-              )}
+              <p className="text-slate-700 text-lg">Staff information coming soon.</p>
+              <p className="text-sm text-slate-500 mt-2">
+                Please check back later for our staff directory.
+              </p>
             </div>
           ) : (
             <div className="space-y-16">
