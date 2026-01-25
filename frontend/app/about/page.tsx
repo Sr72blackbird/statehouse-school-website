@@ -81,19 +81,27 @@ export default async function AboutPage() {
         />
       </section>
 
+      {/* Gradient Wrapper for Content Sections */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(110, 193, 228, 0.25) 15%, rgba(110, 193, 228, 0.35) 35%, rgba(10, 31, 68, 0.15) 60%, rgba(10, 31, 68, 0.08) 80%, rgba(255, 255, 255, 1) 100%)"
+        }}
+      >
       {/* History Section */}
       {data?.history && (
-        <section className="py-12 sm:py-16 bg-white">
+        <section className="py-12 sm:py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <h2
-              className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6"
-              style={{ color: "var(--school-navy)" }}
-            >
-              Our History
-            </h2>
-            <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-              {data.history}
-            </p>
+            <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+              <h2
+                className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6"
+                style={{ color: "var(--school-navy)" }}
+              >
+                Our History
+              </h2>
+              <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
+                {data.history}
+              </p>
+            </div>
           </div>
         </section>
       )}
@@ -103,7 +111,7 @@ export default async function AboutPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {data?.mission && (
-              <div>
+              <div className="bg-white rounded-lg shadow-md p-6">
                 <h3
                   className="text-2xl font-bold mb-4"
                   style={{ color: "var(--school-navy)" }}
@@ -117,7 +125,7 @@ export default async function AboutPage() {
             )}
 
             {data?.vision && (
-              <div>
+              <div className="bg-white rounded-lg shadow-md p-6">
                 <h3
                   className="text-2xl font-bold mb-4"
                   style={{ color: "var(--school-navy)" }}
@@ -131,7 +139,7 @@ export default async function AboutPage() {
             )}
 
             {data?.core_values && (
-              <div>
+              <div className="bg-white rounded-lg shadow-md p-6">
                 <h3
                   className="text-2xl font-bold mb-4"
                   style={{ color: "var(--school-navy)" }}
@@ -149,7 +157,7 @@ export default async function AboutPage() {
 
       {/* Location & Contact Section */}
       {(data?.location || data?.address || data?.phone || data?.email || data?.google_maps_embed_url) && (
-        <section className="py-12 sm:py-16" style={{ backgroundColor: "var(--school-grey-strong)" }}>
+        <section className="py-12 sm:py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2
               className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center"
@@ -255,6 +263,7 @@ export default async function AboutPage() {
           </div>
         </section>
       )}
+      </div>
 
       <Footer />
     </main>

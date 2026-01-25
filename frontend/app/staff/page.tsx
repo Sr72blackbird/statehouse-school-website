@@ -105,7 +105,13 @@ export default async function StaffPage() {
         />
       </section>
 
-      <section className="py-12 sm:py-16 bg-white">
+      {/* Gradient Wrapper for Content Sections */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(110, 193, 228, 0.25) 15%, rgba(110, 193, 228, 0.35) 35%, rgba(10, 31, 68, 0.15) 60%, rgba(10, 31, 68, 0.08) 80%, rgba(255, 255, 255, 1) 100%)"
+        }}
+      >
+      <section className="py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {categories.length === 0 ? (
             <div className="text-center py-12">
@@ -131,21 +137,13 @@ export default async function StaffPage() {
                 if (member.attributes) {
                   return member;
                 }
-                // Otherwise, transform flat structure to expected format
+                // Transform flat structure to expected structure if needed
                 return {
                   id: member.id,
                   attributes: {
                     full_name: member.full_name,
                     job_title: member.job_title,
-                    photo: member.photo 
-                      ? { 
-                          data: Array.isArray(member.photo) 
-                            ? member.photo.map((p: any) => ({ 
-                                attributes: p 
-                              })) 
-                            : [{ attributes: member.photo }] 
-                        } 
-                      : null,
+                    photo: member.photo, // Keep the photo field as-is, we'll handle various structures when rendering
                     biography: member.biography,
                     email: member.email,
                     phone: member.phone,
@@ -177,9 +175,24 @@ export default async function StaffPage() {
                   )}
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {sortedMembers.map((member) => {
-                      const photoUrl = member.attributes.photo?.data?.[0]?.attributes?.url
-                        ? getStrapiMediaUrl(member.attributes.photo.data[0].attributes.url)
-                        : null;
+                      // Handle both nested and flat photo structures
+                      let photoUrl = null;
+                      const photo = member.attributes.photo;
+                      if (photo) {
+                        // Nested: photo.data[0].attributes.url
+                        if (photo?.data?.[0]?.attributes?.url) {
+                          photoUrl = getStrapiMediaUrl(photo.data[0].attributes.url);
+                        // Nested single: photo.data.attributes.url
+                        } else if (photo?.data?.attributes?.url) {
+                          photoUrl = getStrapiMediaUrl(photo.data.attributes.url);
+                        // Flat array: photo[0].url
+                        } else if (Array.isArray(photo) && photo[0]?.url) {
+                          photoUrl = getStrapiMediaUrl(photo[0].url);
+                        // Flat: photo.url
+                        } else if (photo?.url) {
+                          photoUrl = getStrapiMediaUrl(photo.url);
+                        }
+                      }
 
                       return (
                         <div
@@ -249,6 +262,7 @@ export default async function StaffPage() {
         )}
         </div>
       </section>
+      </div>
 
       <Footer />
     </main>

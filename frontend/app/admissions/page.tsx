@@ -77,30 +77,37 @@ export default async function AdmissionsPage() {
         />
       </section>
 
+      {/* Gradient Wrapper for Content Sections */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(110, 193, 228, 0.25) 15%, rgba(110, 193, 228, 0.35) 35%, rgba(10, 31, 68, 0.15) 60%, rgba(10, 31, 68, 0.08) 80%, rgba(255, 255, 255, 1) 100%)"
+        }}
+      >
       {/* Introduction */}
-      <section className="py-12 sm:py-16 bg-white">
+      <section className="py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="prose prose-lg max-w-none">
-            {renderBlocks(data.introduction)}
+          <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+            <div className="prose prose-lg max-w-none">
+              {renderBlocks(data.introduction)}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Admission Process */}
       {data.process && data.process.length > 0 && (
-        <section
-          className="py-16"
-          style={{ backgroundColor: "var(--school-grey-strong)" }}
-        >
+        <section className="py-16">
           <div className="max-w-6xl mx-auto px-6">
-            <h2
-              className="text-3xl font-bold mb-8"
-              style={{ color: "var(--school-navy)" }}
-            >
-              Admission Process
-            </h2>
-            <div className="prose prose-lg max-w-none">
-              {renderBlocks(data.process)}
+            <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+              <h2
+                className="text-3xl font-bold mb-8"
+                style={{ color: "var(--school-navy)" }}
+              >
+                Admission Process
+              </h2>
+              <div className="prose prose-lg max-w-none">
+                {renderBlocks(data.process)}
+              </div>
             </div>
           </div>
         </section>
@@ -110,24 +117,23 @@ export default async function AdmissionsPage() {
       {data.contact_info && data.contact_info.length > 0 && (
         <section className="py-16">
           <div className="max-w-6xl mx-auto px-6">
-            <h2
-              className="text-3xl font-bold mb-8"
-              style={{ color: "var(--school-navy)" }}
-            >
-              Contact Information
-            </h2>
-            <div className="prose prose-lg max-w-none">
-              {renderBlocks(data.contact_info)}
+            <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+              <h2
+                className="text-3xl font-bold mb-8"
+                style={{ color: "var(--school-navy)" }}
+              >
+                Contact Information
+              </h2>
+              <div className="prose prose-lg max-w-none">
+                {renderBlocks(data.contact_info)}
+              </div>
             </div>
           </div>
         </section>
       )}
 
       {/* Admission Requirements Section */}
-      <section
-        className="py-16"
-        style={{ backgroundColor: "var(--school-grey-strong)" }}
-      >
+      <section className="py-16">
         <div className="max-w-6xl mx-auto px-6">
           <h2
             className="text-3xl font-bold mb-8"
@@ -138,6 +144,7 @@ export default async function AdmissionsPage() {
           <AdmissionRequirementsList />
         </div>
       </section>
+      </div>
 
       <Footer />
     </main>

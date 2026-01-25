@@ -87,7 +87,13 @@ export default async function DepartmentsPage() {
         />
       </section>
 
-      <section className="py-12 sm:py-16 bg-white">
+      {/* Gradient Wrapper for Content Sections */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(110, 193, 228, 0.25) 15%, rgba(110, 193, 228, 0.35) 35%, rgba(10, 31, 68, 0.15) 60%, rgba(10, 31, 68, 0.08) 80%, rgba(255, 255, 255, 1) 100%)"
+        }}
+      >
+      <section className="py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {departments.length === 0 ? (
             <div className="text-center py-12">
@@ -96,10 +102,28 @@ export default async function DepartmentsPage() {
           ) : (
             <div className="space-y-8">
               {departments.map((dept) => {
-                const hod = dept.attributes.hod?.data;
-              const hodPhotoUrl = hod?.attributes.photo?.data?.[0]?.attributes?.url
-                ? getStrapiMediaUrl(hod.attributes.photo.data[0].attributes.url)
-                : null;
+                // Handle both nested and flat HOD data structures
+                const hodData = dept.attributes.hod?.data || dept.attributes.hod;
+                const hod = hodData?.attributes ? hodData : (hodData ? { attributes: hodData } : null);
+                
+                // Handle both nested and flat photo structures
+                let hodPhotoUrl = null;
+                if (hod?.attributes?.photo) {
+                  const photo = hod.attributes.photo;
+                  // Nested: photo.data[0].attributes.url
+                  if (photo?.data?.[0]?.attributes?.url) {
+                    hodPhotoUrl = getStrapiMediaUrl(photo.data[0].attributes.url);
+                  // Nested single: photo.data.attributes.url
+                  } else if (photo?.data?.attributes?.url) {
+                    hodPhotoUrl = getStrapiMediaUrl(photo.data.attributes.url);
+                  // Flat array: photo[0].url
+                  } else if (Array.isArray(photo) && photo[0]?.url) {
+                    hodPhotoUrl = getStrapiMediaUrl(photo[0].url);
+                  // Flat: photo.url
+                  } else if (photo?.url) {
+                    hodPhotoUrl = getStrapiMediaUrl(photo.url);
+                  }
+                }
 
               return (
                 <div
@@ -149,6 +173,7 @@ export default async function DepartmentsPage() {
         )}
         </div>
       </section>
+      </div>
 
       <Footer />
     </main>

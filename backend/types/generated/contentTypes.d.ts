@@ -679,6 +679,41 @@ export interface ApiCbcPathwayCbcPathway extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiClubClub extends Struct.CollectionTypeSchema {
+  collectionName: 'clubs';
+  info: {
+    description: 'School clubs and societies';
+    displayName: 'Club & Society';
+    pluralName: 'clubs';
+    singularName: 'club';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::club.club'> &
+      Schema.Attribute.Private;
+    meeting_schedule: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer;
+    patron: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::staff-member.staff-member'
+    >;
+    patron_name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGalleryAlbumGalleryAlbum
   extends Struct.CollectionTypeSchema {
   collectionName: 'gallery_albums';
@@ -1384,6 +1419,7 @@ declare module '@strapi/strapi' {
       'api::admissions-page.admissions-page': ApiAdmissionsPageAdmissionsPage;
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::cbc-pathway.cbc-pathway': ApiCbcPathwayCbcPathway;
+      'api::club.club': ApiClubClub;
       'api::gallery-album.gallery-album': ApiGalleryAlbumGalleryAlbum;
       'api::gallery-item.gallery-item': ApiGalleryItemGalleryItem;
       'api::learning-areas-subject.learning-areas-subject': ApiLearningAreasSubjectLearningAreasSubject;

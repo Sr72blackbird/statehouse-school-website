@@ -141,7 +141,13 @@ export default async function AnnouncementsPage() {
         />
       </section>
 
-      <section className="py-12 sm:py-16 bg-white">
+      {/* Gradient Wrapper for Content Sections */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(110, 193, 228, 0.25) 15%, rgba(110, 193, 228, 0.35) 35%, rgba(10, 31, 68, 0.15) 60%, rgba(10, 31, 68, 0.08) 80%, rgba(255, 255, 255, 1) 100%)"
+        }}
+      >
+      <section className="py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {announcements.length === 0 ? (
             <div className="text-center py-12">
@@ -235,6 +241,7 @@ export default async function AnnouncementsPage() {
         )}
         </div>
       </section>
+      </div>
 
       <Footer />
     </main>
