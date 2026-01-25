@@ -42,16 +42,20 @@ export default async function Footer() {
 
   return (
     <footer>
-      {/* Tie stripe accent */}
+      {/* Gradient accent bar at top */}
       <div
-        className="h-1"
-        style={{ backgroundColor: "var(--uniform-accent)" }}
+        className="h-3"
+        style={{ 
+          background: "linear-gradient(90deg, var(--school-navy) 0%, var(--school-sky) 50%, var(--school-navy) 100%)"
+        }}
       />
 
-      {/* Main footer content */}
+      {/* Main footer content with gradient */}
       <div
         className="py-8 sm:py-12 px-4 sm:px-6"
-        style={{ backgroundColor: "var(--school-grey-strong)" }}
+        style={{ 
+          background: "linear-gradient(180deg, rgba(110, 193, 228, 0.5) 0%, rgba(110, 193, 228, 0.3) 50%, rgba(236, 235, 231, 1) 100%)"
+        }}
       >
         <div className="max-w-6xl mx-auto">
           <div className={`grid gap-6 sm:gap-8 mb-6 sm:mb-8 ${(data?.location || data?.address || data?.phone || data?.email || data?.google_maps_embed_url) ? 'sm:grid-cols-2 md:grid-cols-3' : 'sm:grid-cols-2'}`}>
@@ -174,7 +178,7 @@ export default async function Footer() {
                       </a>
                     </p>
                   )}
-                  {data?.google_maps_embed_url && (
+                  {data?.google_maps_embed_url && data.google_maps_embed_url.includes('google.com/maps/embed') && (
                     <div className="mt-4">
                       <iframe
                         src={data.google_maps_embed_url}

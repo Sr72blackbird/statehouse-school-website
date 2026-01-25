@@ -233,10 +233,25 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Quick Links Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Gradient wrapper for Quick Links, Our Purpose, and Announcements */}
+      <div 
+        className="relative"
+        style={{ 
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(110, 193, 228, 0.25) 15%, rgba(110, 193, 228, 0.35) 35%, rgba(10, 31, 68, 0.15) 60%, rgba(10, 31, 68, 0.08) 80%, rgba(255, 255, 255, 1) 100%)"
+        }}
+      >
+        {/* Subtle decorative gradient overlay */}
+        <div 
+          className="absolute inset-0 opacity-50 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at 20% 30%, rgba(110, 193, 228, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(10, 31, 68, 0.2) 0%, transparent 50%)"
+          }}
+        />
+
+        {/* Quick Links Section */}
+        <section className="py-16 relative">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 title: "Admissions",
@@ -298,11 +313,11 @@ export default async function Home() {
             ))}
           </div>
         </div>
-      </section>
+        </section>
 
-      {/* Mission & Vision Section */}
-      <section className="py-20" style={{ backgroundColor: "var(--school-grey)" }}>
-        <div className="max-w-7xl mx-auto px-6">
+        {/* Mission & Vision Section */}
+        <section className="py-20 relative">
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: "var(--school-navy)" }}>
               Our Purpose
@@ -363,12 +378,12 @@ export default async function Home() {
             </div>
           )}
         </div>
-      </section>
+        </section>
 
-      {/* Announcements Section */}
-      {announcements.length > 0 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
+        {/* Announcements Section */}
+        {announcements.length > 0 && (
+          <section className="py-20 relative">
+            <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "var(--school-navy)" }}>
@@ -439,6 +454,8 @@ export default async function Home() {
           </div>
         </section>
       )}
+      </div>
+      {/* End of gradient wrapper */}
 
       {/* Gallery Preview Section */}
       {galleryAlbums.length > 0 && (
