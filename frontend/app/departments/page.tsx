@@ -25,13 +25,15 @@ type Media = {
   url: string;
 };
 
+type StaffMemberAttributes = {
+  full_name: string;
+  job_title: string;
+  photo: any; // Flexible to handle various Strapi response formats
+};
+
 type StaffMember = {
   id: number;
-  attributes: {
-    full_name: string;
-    job_title: string;
-    photo: { data: Array<{ attributes: Media }> | null } | null;
-  };
+  attributes: StaffMemberAttributes;
 };
 
 type AcademicDepartment = {
@@ -39,7 +41,7 @@ type AcademicDepartment = {
   attributes: {
     name: string;
     description: Block[] | null;
-    hod: { data: StaffMember | null } | null;
+    hod: any; // Flexible to handle both nested and flat Strapi structures
     order: number | null;
   };
 };
@@ -103,11 +105,22 @@ export default async function DepartmentsPage() {
             <div className="space-y-8">
               {departments.map((dept) => {
                 // Handle both nested and flat HOD data structures
-                const hodData = dept.attributes.hod?.data || dept.attributes.hod;
-                const hod = hodData?.attributes ? hodData : (hodData ? { attributes: hodData } : null);
+                const hodRaw = dept.attributes.hod;
+                const hodData = hodRaw?.data || hodRaw;
+                
+                // Normalize to have an attributes property
+                let hod: { attributes: StaffMemberAttributes } | null = null;
+                if (hodData) {
+                  if (hodData.attributes) {
+                    hod = hodData;
+                  } else if (hodData.full_name) {
+                    // Flat structure - wrap it
+                    hod = { attributes: hodData };
+                  }
+                }
                 
                 // Handle both nested and flat photo structures
-                let hodPhotoUrl = null;
+                let hodPhotoUrl: string | null = null;
                 if (hod?.attributes?.photo) {
                   const photo = hod.attributes.photo;
                   // Nested: photo.data[0].attributes.url
