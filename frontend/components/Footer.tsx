@@ -117,6 +117,9 @@ export default async function Footer() {
                 <li>
                   <FooterLink href="/gallery">Gallery</FooterLink>
                 </li>
+                <li>
+                  <FooterLink href="/downloads">Downloads</FooterLink>
+                </li>
               </ul>
             </nav>
 

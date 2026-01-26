@@ -84,6 +84,7 @@ export default async function Header() {
           <NavLink href="/staff">Staff</NavLink>
           <NavLink href="/announcements">Announcements</NavLink>
           <NavLink href="/gallery">Gallery</NavLink>
+          <NavLink href="/downloads">Downloads</NavLink>
         </div>
 
         {/* Mobile Navigation Toggle */}

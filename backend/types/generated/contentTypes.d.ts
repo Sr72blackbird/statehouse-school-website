@@ -714,6 +714,38 @@ export interface ApiClubClub extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDownloadDownload extends Struct.CollectionTypeSchema {
+  collectionName: 'downloads';
+  info: {
+    displayName: 'Download';
+    pluralName: 'downloads';
+    singularName: 'download';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    file: Schema.Attribute.Media<'files' | 'images' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::download.download'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGalleryAlbumGalleryAlbum
   extends Struct.CollectionTypeSchema {
   collectionName: 'gallery_albums';
@@ -1420,6 +1452,7 @@ declare module '@strapi/strapi' {
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::cbc-pathway.cbc-pathway': ApiCbcPathwayCbcPathway;
       'api::club.club': ApiClubClub;
+      'api::download.download': ApiDownloadDownload;
       'api::gallery-album.gallery-album': ApiGalleryAlbumGalleryAlbum;
       'api::gallery-item.gallery-item': ApiGalleryItemGalleryItem;
       'api::learning-areas-subject.learning-areas-subject': ApiLearningAreasSubjectLearningAreasSubject;
