@@ -488,7 +488,7 @@ export interface ApiAboutTheSchoolAboutTheSchool
     established_year: Schema.Attribute.String;
     facebook_url: Schema.Attribute.String;
     google_maps_embed_url: Schema.Attribute.Text;
-    history: Schema.Attribute.String;
+    history: Schema.Attribute.RichText;
     instagram_url: Schema.Attribute.String;
     linkedin_url: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

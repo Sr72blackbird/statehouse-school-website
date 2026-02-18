@@ -16,7 +16,7 @@
       "required": true
     },
     "history": {
-      "type": "string"
+      "type": "richtext"
     },
     "mission": {
       "type": "string"
