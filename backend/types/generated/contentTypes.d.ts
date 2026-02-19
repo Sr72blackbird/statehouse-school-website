@@ -507,6 +507,7 @@ export interface ApiAboutTheSchoolAboutTheSchool
     >;
     publishedAt: Schema.Attribute.DateTime;
     School_name: Schema.Attribute.String & Schema.Attribute.Required;
+    tagline: Schema.Attribute.String;
     twitter_url: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

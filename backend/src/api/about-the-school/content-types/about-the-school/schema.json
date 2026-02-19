@@ -47,6 +47,9 @@
         "audios"
       ]
     },
+    "tagline": {
+      "type": "string"
+    },
     "established_year": {
       "type": "string"
     },

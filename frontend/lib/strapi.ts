@@ -31,8 +31,8 @@ export async function fetchFromStrapi<T>(
       headers,
       signal: controller.signal,
       // Use revalidate for ISR (Incremental Static Regeneration)
-      // Revalidate every 5 minutes in production, no cache in development
-      next: { revalidate: process.env.NODE_ENV === "production" ? 300 : 0 },
+      // Revalidate every 60 seconds in production, no cache in development
+      next: { revalidate: process.env.NODE_ENV === "production" ? 60 : 0 },
     });
     
     clearTimeout(timeoutId);

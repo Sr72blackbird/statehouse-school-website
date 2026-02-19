@@ -13,7 +13,6 @@ const navLinks = [
   { href: "/staff", label: "Staff" },
   { href: "/announcements", label: "Announcements" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/downloads", label: "Downloads" },
 ];
 
 export default function MobileNav() {

@@ -54,7 +54,7 @@ services:
         value: e24bc27e6aa2250d51615c97567e3be2  # ← REPLACE WITH NEW GENERATED KEY
       - key: WEBHOOKS_POPULATE_RELATIONS
         value: false
-    healthCheckPath: /api/health
+    healthCheckPath: /_health
     autoDeploy: true
 
   # ========================================================================

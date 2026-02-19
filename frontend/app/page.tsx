@@ -2,7 +2,13 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSlideshow from "@/components/HeroSlideshow";
+import HeroTextOnSecondImage from "@/components/HeroTextOnSecondImage";
+import QuickLinks from "@/components/QuickLinks";
+import ClientRefresher from "@/components/ClientRefresher";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
+
+// Always fetch fresh data on every request — prevents Strapi cold-start from caching blank pages
+export const dynamic = "force-dynamic";
 
 type Media = {
   url: string;
@@ -10,6 +16,7 @@ type Media = {
 
 type AboutSchool = {
   School_name: string;
+  tagline: string | null;
   history: string | null;
   mission: string | null;
   vision: string | null;
@@ -71,6 +78,7 @@ export default async function Home() {
   // Default data
   let data: AboutSchool = {
     School_name: "Statehouse School",
+    tagline: null,
     history: null,
     mission: "To provide quality education that nurtures excellence.",
     vision: "To be a leading institution of academic excellence.",
@@ -226,7 +234,7 @@ export default async function Home() {
         <HeroSlideshow images={heroImages} interval={6000} />
         {/* Dark Overlay */}
         <div
-          className="absolute inset-0 z-[1]"
+          className="absolute inset-0 z-[1] pointer-events-none"
           style={{
             background: heroImages.length > 0
               ? "linear-gradient(135deg, rgba(10, 31, 68, 0.6) 0%, rgba(26, 58, 110, 0.5) 100%)"
@@ -244,35 +252,25 @@ export default async function Home() {
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
                 Welcome to{" "}
-                <span style={{ color: "var(--school-sky)" }}>
+                <span style={{ color: "var(--school-sky)", textShadow: "0 2px 8px rgba(0,0,0,0.25)" }}>
                   {data.School_name}
                 </span>
               </h1>
 
-              <p className="text-lg md:text-xl text-white/90 max-w-2xl">
-                {data.mission || "To provide quality education that nurtures academic excellence, moral integrity, and holistic development in every learner."}
+              <p className="text-xl md:text-2xl font-semibold text-white drop-shadow mb-4" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.25)" }}>
+                {data.tagline || "Excellence, Our Pride"}
               </p>
+
+              {/* Description text appears only when second image is loaded */}
+              <HeroTextOnSecondImage mission={data.mission} />
             </div>
           </div>
         </div>
 
-        {/* Wave divider */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 translate-y-[1px]">
-          <svg 
-            viewBox="0 0 1440 120" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg" 
-            preserveAspectRatio="none" 
-            className="w-full h-[60px] md:h-[80px] lg:h-[120px]"
-          >
-            <path
-              d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-              fill="white"
-            />
-          </svg>
-        </div>
+        {/* Straight divider */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 h-[2px] bg-white" />
       </section>
 
       {/* Gradient wrapper for Quick Links, Our Purpose, and Announcements */}
@@ -290,75 +288,8 @@ export default async function Home() {
           }}
         />
 
-        {/* Quick Links Section */}
-        <section className="py-16 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: "Admissions",
-                description: "Join our community",
-                href: "/admissions",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                  </svg>
-                ),
-              },
-              {
-                title: "Academics",
-                description: "Explore our curriculum",
-                href: "/academics",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                ),
-              },
-              {
-                title: "Our Staff",
-                description: "Meet our educators",
-                href: "/staff",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                ),
-              },
-              {
-                title: "Gallery",
-                description: "See school life",
-                href: "/gallery",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                ),
-              },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="group p-6 rounded-xl border-2 border-slate-100 hover:border-sky-200 hover:shadow-lg transition-all duration-300 bg-white"
-              >
-                <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300"
-                  style={{ backgroundColor: "var(--school-grey)", color: "var(--school-navy)" }}
-                >
-                  {link.icon}
-                </div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: "var(--school-navy)" }}>
-                  {link.title}
-                </h3>
-                <p className="text-slate-600 text-sm">{link.description}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-        </section>
-
         {/* Mission & Vision Section */}
-        <section className="py-20 relative">
+        <section className="pt-16 pb-6 relative">
           <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: "var(--school-navy)" }}>
@@ -422,6 +353,13 @@ export default async function Home() {
         </div>
         </section>
 
+        {/* Quick Links Section */}
+        <section className="py-10 relative">
+          <div className="max-w-7xl mx-auto px-6">
+            <QuickLinks />
+          </div>
+        </section>
+
         {/* Announcements Section */}
         {announcements.length > 0 && (
           <section className="py-20 relative">
@@ -459,7 +397,7 @@ export default async function Home() {
                         <img
                           src={imageUrl}
                           alt={announcement.attributes.Title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "var(--school-grey)" }}>
@@ -629,6 +567,7 @@ export default async function Home() {
         </section>
       )}
 
+      <ClientRefresher dataIsEmpty={!data?.School_name && announcements.length === 0} />
       <Footer />
     </main>
   );
