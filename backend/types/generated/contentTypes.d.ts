@@ -471,6 +471,7 @@ export interface ApiAboutTheSchoolAboutTheSchool
   extends Struct.SingleTypeSchema {
   collectionName: 'about_the_schools';
   info: {
+    description: 'School profile including tagline, mission, vision, history and contact info';
     displayName: 'About the School';
     pluralName: 'about-the-schools';
     singularName: 'about-the-school';

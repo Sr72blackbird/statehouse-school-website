@@ -228,7 +228,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section with Header overlay */}
-      <section className="relative overflow-hidden min-h-[600px] lg:min-h-[700px]">
+      <section className="relative overflow-hidden min-h-[460px] lg:min-h-[540px]">
         <Header />
         {/* Background Image Slideshow */}
         <HeroSlideshow images={heroImages} interval={6000} />
@@ -242,7 +242,7 @@ export default async function Home() {
           }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-40 sm:pt-44 lg:pt-48 pb-24 lg:pb-32 flex items-center min-h-[600px] lg:min-h-[700px]">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-36 sm:pt-40 lg:pt-44 pb-14 lg:pb-20 flex items-center min-h-[460px] lg:min-h-[540px]">
           <div className="max-w-3xl">
             <div className="text-white">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">

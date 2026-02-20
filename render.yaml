@@ -42,6 +42,10 @@ services:
         value: postgresql://strapi:b0OpKLDS7RM8fZ5ApREjRNGRO9IEbguL@dpg-d5klek1r0fns73bh1aug-a/strapi_r9vy
       - key: DATABASE_SSL
         value: true
+      - key: DATABASE_SSL_REJECT_UNAUTHORIZED
+        value: false
+      - key: URL
+        value: https://statehouse-strapi.onrender.com
       - key: APP_KEYS
         value: a9be19111951b2d377df6598af67418a,a1c76a71b2fa1a112a894af435393ae0,b353195fc8c102c6e5de1299bc452216,837cd190f7fe490426c1f269f6cd1df4  # ← REPLACE WITH 4 GENERATED KEYS (comma-separated, no spaces)
       - key: API_TOKEN_SALT
@@ -72,10 +76,12 @@ services:
     env: node
     plan: free  # FREE TIER
     buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm start
+    startCommand: cd frontend && npm start -- -p $PORT
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
       - key: NEXT_PUBLIC_STRAPI_URL
         value: https://statehouse-strapi.onrender.com  # ← REPLACE WITH YOUR ACTUAL STRAPI URL
       - key: STRAPI_API_TOKEN
