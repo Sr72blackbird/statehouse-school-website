@@ -4,7 +4,8 @@
   "info": {
     "singularName": "about-the-school",
     "pluralName": "about-the-schools",
-    "displayName": "About the School"
+    "displayName": "About the School",
+    "description": "School profile including tagline, mission, vision, history and contact info"
   },
   "options": {
     "draftAndPublish": true
