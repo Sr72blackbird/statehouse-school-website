@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Gallery",
   description: "Browse our photo gallery showcasing school events, activities, and memorable moments.",
   openGraph: {
-    title: "Gallery - Statehouse School",
+    title: "Gallery - State House Boys Senior School",
     description: "Browse our photo gallery showcasing school events and activities.",
   },
 };

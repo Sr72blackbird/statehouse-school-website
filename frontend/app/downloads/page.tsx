@@ -6,7 +6,7 @@ export const metadata = {
   title: "Downloads",
   description: "Download important documents such as Fees Structure, Tenders, and other PDFs.",
   openGraph: {
-    title: "Downloads - Statehouse School",
+    title: "Downloads - State House Boys Senior School",
     description: "Download important documents such as Fees Structure, Tenders, and other PDFs.",
   },
 };

@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers deploying the Statehouse School website to production.
+This guide covers deploying the State House Boys Senior School website to production.
 
 ## Prerequisites
 

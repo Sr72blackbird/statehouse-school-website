@@ -1,6 +1,6 @@
 # Strapi Content Management Guide
 
-This guide explains how to manage content in Strapi CMS for the Statehouse School website.
+This guide explains how to manage content in Strapi CMS for the State House Boys Senior School website.
 
 ## Accessing Strapi Admin
 

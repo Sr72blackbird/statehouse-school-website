@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Staff",
   description: "Meet our dedicated staff members and educators who are committed to excellence in education.",
   openGraph: {
-    title: "Our Staff - Statehouse School",
+    title: "Our Staff - State House Boys Senior School",
     description: "Meet our dedicated staff members and educators.",
   },
 };

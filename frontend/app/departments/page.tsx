@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Departments",
   description: "Explore our academic departments and meet our department heads. Learn about our comprehensive academic structure.",
   openGraph: {
-    title: "Academic Departments - Statehouse School",
+    title: "Academic Departments - State House Boys Senior School",
     description: "Explore our academic departments and meet our department heads.",
   },
 };

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
 import MobileNav from "./MobileNav";
+import NavBarClient from "./NavBarClient";
 // import SearchBar from "./SearchBar"; // Hidden for now
 
 type Media = {
@@ -30,13 +31,13 @@ export default async function Header() {
   }
 
   const logoUrl = data ? getStrapiMediaUrl(data.logo?.url) : null;
-  const schoolName = data?.School_name || "Statehouse School";
+  const schoolName = data?.School_name || "State House Boys Senior School";
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-20">
+    <header className="sticky top-0 left-0 right-0 z-40 backdrop-blur-sm">
       {/* Top school identity bar */}
       <div
-        className="flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4"
+        className="flex items-center justify-center gap-2 sm:gap-4 py-2 sm:py-3 px-4"
         style={{ backgroundColor: "var(--school-navy)" }}
       >
         {logoUrl && (
@@ -69,28 +70,8 @@ export default async function Header() {
         style={{ backgroundColor: "var(--uniform-accent)" }}
       />
 
-      {/* Navigation bar - Transparent, overlays hero image */}
-      <nav
-        className="flex justify-between items-center py-3 sm:py-4 px-4 md:px-6"
-        aria-label="Main navigation"
-      >
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex flex-wrap justify-center gap-2 md:gap-4 mx-auto">
-          <NavLink href="/">Home</NavLink>
-          <NavLink href="/about">About</NavLink>
-          <NavLink href="/admissions">Admissions</NavLink>
-          <NavLink href="/academics">Academics</NavLink>
-          <NavLink href="/departments">Departments</NavLink>
-          <NavLink href="/staff">Staff</NavLink>
-          <NavLink href="/announcements">Announcements</NavLink>
-          <NavLink href="/gallery">Gallery</NavLink>
-        </div>
-
-        {/* Mobile Navigation Toggle */}
-        <div className="lg:hidden ml-auto">
-          <MobileNav />
-        </div>
-      </nav>
+      {/* Navigation bar - Transparent overlay that becomes solid on scroll (client) */}
+      <NavBarClient />
     </header>
   );
 }
@@ -105,7 +86,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="nav-link-glow px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105"
+      className="nav-link-glow text-white font-medium transition-colors duration-200 px-2 py-1 hover:underline"
     >
       {children}
     </Link>

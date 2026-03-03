@@ -1,6 +1,6 @@
-# Statehouse School Website
+# State House Boys Senior School Website
 
-A modern, responsive website for Statehouse School built with Next.js 16 and Strapi CMS.
+A modern, responsive website for State House Boys Senior School built with Next.js 16 and Strapi CMS.
 
 ## Features
 

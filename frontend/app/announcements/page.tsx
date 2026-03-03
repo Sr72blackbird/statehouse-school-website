@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Announcements",
   description: "Stay updated with the latest news, notices, and events from our school.",
   openGraph: {
-    title: "Announcements - Statehouse School",
+    title: "Announcements - State House Boys Senior School",
     description: "Stay updated with the latest news, notices, and events.",
   },
 };

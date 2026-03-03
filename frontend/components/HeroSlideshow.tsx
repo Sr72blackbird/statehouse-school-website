@@ -37,7 +37,12 @@ export default function HeroSlideshow({
           className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
-          style={{ backgroundImage: `url('${image}')` }}
+          style={{
+            backgroundImage: `url('${image}')`,
+            transform: index === currentIndex ? "scale(1.06)" : "scale(1)",
+            transition: "transform 12s ease-in-out",
+            transformOrigin: "center center",
+          }}
         />
       ))}
 

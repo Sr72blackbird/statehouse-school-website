@@ -77,7 +77,7 @@ type ClubsResponse = {
 export default async function Home() {
   // Default data
   let data: AboutSchool = {
-    School_name: "Statehouse School",
+    School_name: "State House Boys Senior School",
     tagline: null,
     history: null,
     mission: "To provide quality education that nurtures excellence.",
@@ -112,21 +112,37 @@ export default async function Home() {
     }
 
     if (announcementsResponse.data) {
-      // Handle flat data structure
+      // Handle flat data structure and ensure slug is generated
       announcements = announcementsResponse.data.map((ann: any) => {
+        let slug = ann.Slug || ann.slug || ann.attributes?.Slug || ann.attributes?.slug;
+        const title = ann.Title || ann.attributes?.Title;
+        // Check if slug is null, undefined, empty, or the string "null"
+        if (!slug || slug === "null" || slug === "undefined") {
+          if (title) {
+            slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+          } else {
+            slug = `announcement-${ann.id}`;
+          }
+        }
         if (!ann.attributes) {
           return {
             id: ann.id,
             attributes: {
-              Title: ann.Title,
-              Slug: ann.Slug || ann.Title?.toLowerCase().replace(/\s+/g, "-") || `announcement-${ann.id}`,
+              Title: title,
+              Slug: slug,
               Date: ann.Date,
               Category: ann.Category,
               Image: ann.Image,
             },
           };
         }
-        return ann;
+        return {
+          ...ann,
+          attributes: {
+            ...ann.attributes,
+            Slug: slug,
+          },
+        };
       });
     }
 
@@ -228,7 +244,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section with Header overlay */}
-      <section className="relative overflow-hidden min-h-[460px] lg:min-h-[540px]">
+      <section className="relative overflow-hidden min-h-[560px] lg:min-h-[640px]">
         <Header />
         {/* Background Image Slideshow */}
         <HeroSlideshow images={heroImages} interval={6000} />
@@ -242,7 +258,7 @@ export default async function Home() {
           }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-36 sm:pt-40 lg:pt-44 pb-14 lg:pb-20 flex items-center min-h-[460px] lg:min-h-[540px]">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28 sm:pt-32 lg:pt-36 pb-10 lg:pb-12 flex items-center min-h-[480px] lg:min-h-[520px]">
           <div className="max-w-3xl">
             <div className="text-white">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
@@ -252,16 +268,11 @@ export default async function Home() {
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
-                Welcome to{" "}
-                <span style={{ color: "var(--school-sky)", textShadow: "0 2px 8px rgba(0,0,0,0.25)" }}>
-                  {data.School_name}
-                </span>
-              </h1>
-
-              <p className="text-xl md:text-2xl font-semibold text-white drop-shadow mb-4" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.25)" }}>
-                {data.tagline || "Excellence, Our Pride"}
-              </p>
+              {data.tagline && (
+                <p className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white drop-shadow mb-4" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.25)" }}>
+                  {data.tagline}
+                </p>
+              )}
 
               {/* Description text appears only when second image is loaded */}
               <HeroTextOnSecondImage mission={data.mission} />
@@ -289,8 +300,8 @@ export default async function Home() {
         />
 
         {/* Mission & Vision Section */}
-        <section className="pt-16 pb-6 relative">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <section className="pt-8 md:pt-10 pb-6 relative">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: "var(--school-navy)" }}>
               Our Purpose
@@ -299,71 +310,56 @@ export default async function Home() {
               Guided by our mission and vision, we strive to provide exceptional education that shapes future leaders.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Mission Card */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center mb-6"
-                style={{ backgroundColor: "var(--school-sky)", color: "var(--school-navy)" }}
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+          <div className="grid md:grid-cols-2 gap-4 items-stretch">
+            {/* Left column: stacked Mission + Core Values (compact) */}
+            <div className="grid grid-rows-2 gap-4">
+              <div className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: "var(--school-sky)", color: "var(--school-navy)" }}>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--school-navy)" }}>Our Mission</h3>
+                <p className="text-sm text-slate-600 leading-tight flex-1">
+                  {data.mission || "To provide quality education that nurtures academic excellence, moral integrity, and holistic development in every learner."}
+                </p>
               </div>
-              <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--school-navy)" }}>
-                Our Mission
-              </h3>
-              <p className="text-slate-600 leading-relaxed">
-                {data.mission || "To provide quality education that nurtures academic excellence, moral integrity, and holistic development in every learner."}
-              </p>
+
+              <div className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: "var(--uniform-accent)", color: "var(--school-navy)" }}>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7h18M3 12h18M3 17h18" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--school-navy)" }}>Our Core Values</h3>
+                <p className="text-sm text-slate-600 leading-tight flex-1">
+                  {data.core_values || ""}
+                </p>
+              </div>
             </div>
 
-            {/* Vision Card */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center mb-6"
-                style={{ backgroundColor: "var(--uniform-accent)", color: "var(--school-navy)" }}
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {/* Right column: Vision (spanning the height of the two stacked cards) - compact */}
+            <div className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: "var(--uniform-accent)", color: "var(--school-navy)" }}>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--school-navy)" }}>
-                Our Vision
-              </h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--school-navy)" }}>Our Vision</h3>
+              <p className="text-sm text-slate-600 leading-tight flex-1">
                 {data.vision || "To be a leading institution that inspires excellence and produces well-rounded individuals ready to make a positive impact in society."}
               </p>
             </div>
           </div>
-
-          {/* Core Values */}
-          {data.core_values && (
-            <div className="mt-12 bg-white rounded-2xl p-8 shadow-sm">
-              <h3 className="text-2xl font-bold mb-6 text-center" style={{ color: "var(--school-navy)" }}>
-                Our Core Values
-              </h3>
-              <p className="text-slate-600 text-center leading-relaxed max-w-4xl mx-auto">
-                {data.core_values}
-              </p>
-            </div>
-          )}
         </div>
         </section>
 
-        {/* Quick Links Section */}
-        <section className="py-10 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <QuickLinks />
-          </div>
-        </section>
 
         {/* Announcements Section */}
         {announcements.length > 0 && (
-          <section className="py-20 relative">
-            <div className="max-w-7xl mx-auto px-6">
+          <section className="py-12 md:py-20 relative">
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "var(--school-navy)" }}>
@@ -383,7 +379,7 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
               {announcements.map((announcement) => {
                 const imageUrl = getImageUrl(announcement.attributes.Image);
                 return (
@@ -435,10 +431,17 @@ export default async function Home() {
         </section>
       )}
 
+      {/* Quick Links Section */}
+      <section className="py-8 md:py-10 relative">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <QuickLinks />
+        </div>
+      </section>
+
       {/* Clubs & Societies Section */}
       {clubs.length > 0 && (
-        <section className="py-20 relative">
-          <div className="max-w-7xl mx-auto px-6">
+        <section className="py-12 md:py-20 relative">
+          <div className="max-w-7xl mx-auto px-4 md:px-6">
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "var(--school-navy)" }}>
                 Clubs & Societies
@@ -446,7 +449,7 @@ export default async function Home() {
               <p className="text-slate-600 mt-2">Explore our vibrant extracurricular activities</p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
               {clubs.map((club) => {
                 const clubImageUrl = getImageUrl(club.attributes.image);
                 // Get patron name from relation or direct field
@@ -508,8 +511,8 @@ export default async function Home() {
 
       {/* Gallery Preview Section */}
       {galleryAlbums.length > 0 && (
-        <section className="py-20" style={{ background: "linear-gradient(135deg, #0a1f44 0%, #1a3a6e 50%, #0a1f44 100%)" }}>
-          <div className="max-w-7xl mx-auto px-6">
+        <section className="py-12 md:py-20" style={{ background: "linear-gradient(135deg, #0a1f44 0%, #1a3a6e 50%, #0a1f44 100%)" }}>
+          <div className="max-w-7xl mx-auto px-4 md:px-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
@@ -529,7 +532,7 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
               {galleryAlbums.slice(0, 4).map((album, index) => {
                 const coverUrl = getImageUrl(album.attributes.cover_image);
                 return (

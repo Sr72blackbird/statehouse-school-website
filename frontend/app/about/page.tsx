@@ -123,21 +123,21 @@ export default async function AboutPage() {
       </section>
 
       {/* Principals Board of Honour */}
-      <section className="py-12 sm:py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="rounded-2xl overflow-hidden shadow-lg" style={{ backgroundColor: "var(--school-navy)" }}>
+      <section className="py-8 sm:py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6">
+          <div className="rounded-lg sm:rounded-2xl overflow-hidden shadow-lg" style={{ backgroundColor: "var(--school-navy)" }}>
             {/* Header */}
-            <div className="text-center py-8 px-6" style={{ borderBottom: "2px solid rgba(255,215,0,0.3)" }}>
-              <p className="text-xs tracking-[0.3em] font-semibold mb-1" style={{ color: "rgba(255,215,0,0.7)" }}>
+            <div className="text-center py-6 sm:py-8 px-4 sm:px-6" style={{ borderBottom: "2px solid rgba(255,215,0,0.3)" }}>
+              <p className="text-xs tracking-[0.2em] sm:tracking-[0.3em] font-semibold mb-1" style={{ color: "rgba(255,215,0,0.7)" }}>
                 STATE HOUSE BOYS HIGH SCHOOL
               </p>
-              <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: "#FFD700" }}>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: "#FFD700" }}>
                 Principals Board of Honour
               </h2>
             </div>
 
             {/* Table */}
-            <div className="px-6 sm:px-10 py-8">
+            <div className="px-3 sm:px-6 md:px-10 py-6 sm:py-8">
               <div className="space-y-0 divide-y" style={{ borderColor: "rgba(255,215,0,0.15)" }}>
                 {[
                   { name: "Mr. Josiah Agak",      years: "1986 – 1988" },
@@ -152,15 +152,15 @@ export default async function AboutPage() {
                 ].map((p, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between py-4 px-2 sm:px-4"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 sm:py-4 px-2 sm:px-3 md:px-4 gap-2 sm:gap-3"
                     style={{
                       background: p.current ? "rgba(255,215,0,0.08)" : "transparent",
                       borderColor: "rgba(255,215,0,0.15)",
                     }}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
                       <span
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                         style={{
                           backgroundColor: p.current ? "#FFD700" : "rgba(255,215,0,0.15)",
                           color: p.current ? "var(--school-navy)" : "rgba(255,215,0,0.7)",
@@ -168,27 +168,39 @@ export default async function AboutPage() {
                       >
                         {i + 1}
                       </span>
-                      <span
-                        className="font-semibold text-base sm:text-lg tracking-wide"
-                        style={{ color: p.current ? "#FFD700" : "rgba(255,255,255,0.9)" }}
-                      >
-                        {p.name}
+                      <div className="flex-1 min-w-0">
+                        <span
+                          className="font-semibold text-sm sm:text-base md:text-lg tracking-wide break-words"
+                          style={{ color: p.current ? "#FFD700" : "rgba(255,255,255,0.9)" }}
+                        >
+                          {p.name}
+                        </span>
                         {p.current && (
                           <span
-                            className="ml-3 text-xs font-medium px-2 py-0.5 rounded-full"
+                            className="ml-2 text-xs font-medium px-2 py-0.5 rounded-full inline-block sm:hidden"
                             style={{ backgroundColor: "rgba(255,215,0,0.2)", color: "#FFD700" }}
                           >
                             Current
                           </span>
                         )}
-                      </span>
+                      </div>
                     </div>
-                    <span
-                      className="text-sm sm:text-base font-mono tracking-wider flex-shrink-0"
-                      style={{ color: "rgba(255,215,0,0.65)" }}
-                    >
-                      {p.years}
-                    </span>
+                    <div className="flex items-center sm:flex-col md:flex-row gap-2 sm:gap-0 md:gap-2">
+                      <span
+                        className="text-xs sm:text-sm md:text-base font-mono tracking-wider flex-shrink-0"
+                        style={{ color: "rgba(255,215,0,0.65)" }}
+                      >
+                        {p.years}
+                      </span>
+                      {p.current && (
+                        <span
+                          className="hidden sm:inline text-xs font-medium px-2 py-0.5 rounded-full"
+                          style={{ backgroundColor: "rgba(255,215,0,0.2)", color: "#FFD700" }}
+                        >
+                          Current
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -198,22 +210,22 @@ export default async function AboutPage() {
       </section>
 
       {/* BOM Chairpersons Board */}
-      <section className="py-12 sm:py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="rounded-2xl overflow-hidden shadow-lg" style={{ backgroundColor: "var(--school-navy)" }}>
+      <section className="py-8 sm:py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6">
+          <div className="rounded-lg sm:rounded-2xl overflow-hidden shadow-lg" style={{ backgroundColor: "var(--school-navy)" }}>
             {/* Header */}
-            <div className="text-center py-8 px-6" style={{ borderBottom: "2px solid rgba(255,215,0,0.3)" }}>
-              <p className="text-xs tracking-[0.3em] font-semibold mb-1" style={{ color: "rgba(255,215,0,0.7)" }}>
+            <div className="text-center py-6 sm:py-8 px-4 sm:px-6" style={{ borderBottom: "2px solid rgba(255,215,0,0.3)" }}>
+              <p className="text-xs tracking-[0.2em] sm:tracking-[0.3em] font-semibold mb-1" style={{ color: "rgba(255,215,0,0.7)" }}>
                 STATE HOUSE BOYS HIGH SCHOOL
               </p>
-              <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: "#FFD700" }}>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: "#FFD700" }}>
                 B.O.M Chairpersons
               </h2>
             </div>
 
             {/* Table */}
-            <div className="px-6 sm:px-10 py-8">
-              <div className="flex justify-between text-xs font-bold tracking-widest uppercase mb-4 px-2 sm:px-4" style={{ color: "rgba(255,215,0,0.5)" }}>
+            <div className="px-3 sm:px-6 md:px-10 py-6 sm:py-8">
+              <div className="hidden sm:flex justify-between text-xs font-bold tracking-widest uppercase mb-3 sm:mb-4 px-2 sm:px-3 md:px-4" style={{ color: "rgba(255,215,0,0.5)" }}>
                 <span>Name</span>
                 <span>Tenure</span>
               </div>
@@ -228,15 +240,15 @@ export default async function AboutPage() {
                 ].map((p, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between py-4 px-2 sm:px-4"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 sm:py-4 px-2 sm:px-3 md:px-4 gap-2 sm:gap-3"
                     style={{
                       background: p.current ? "rgba(255,215,0,0.08)" : "transparent",
                       borderColor: "rgba(255,215,0,0.15)",
                     }}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
                       <span
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 hidden sm:flex"
                         style={{
                           backgroundColor: p.current ? "#FFD700" : "rgba(255,215,0,0.15)",
                           color: p.current ? "var(--school-navy)" : "rgba(255,215,0,0.7)",
@@ -244,23 +256,25 @@ export default async function AboutPage() {
                       >
                         {i + 1}
                       </span>
-                      <span
-                        className="font-semibold text-base sm:text-lg tracking-wide"
-                        style={{ color: p.current ? "#FFD700" : "rgba(255,255,255,0.9)" }}
-                      >
-                        {p.name}
+                      <div className="flex-1 min-w-0">
+                        <span
+                          className="font-semibold text-sm sm:text-base md:text-lg tracking-wide break-words"
+                          style={{ color: p.current ? "#FFD700" : "rgba(255,255,255,0.9)" }}
+                        >
+                          {p.name}
+                        </span>
                         {p.current && (
                           <span
-                            className="ml-3 text-xs font-medium px-2 py-0.5 rounded-full"
+                            className="ml-2 text-xs font-medium px-2 py-0.5 rounded-full inline-block"
                             style={{ backgroundColor: "rgba(255,215,0,0.2)", color: "#FFD700" }}
                           >
                             Current
                           </span>
                         )}
-                      </span>
+                      </div>
                     </div>
                     <span
-                      className="text-sm sm:text-base font-mono tracking-wider flex-shrink-0"
+                      className="text-xs sm:text-sm md:text-base font-mono tracking-wider flex-shrink-0"
                       style={{ color: "rgba(255,215,0,0.65)" }}
                     >
                       {p.years}

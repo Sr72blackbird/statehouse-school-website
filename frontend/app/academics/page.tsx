@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Academics",
   description: "Explore our academic programs, CBC pathways, and learning areas. Discover our comprehensive curriculum designed for excellence.",
   openGraph: {
-    title: "Academics - Statehouse School",
+    title: "Academics - State House Boys Senior School",
     description: "Explore our academic programs, CBC pathways, and learning areas.",
   },
 };

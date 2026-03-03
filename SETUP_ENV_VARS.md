@@ -1,6 +1,6 @@
 # Environment Variables Setup Guide
 
-This guide helps you set up environment variables in Vercel for your Statehouse School website.
+This guide helps you set up environment variables in Vercel for your State House Boys Senior School website.
 
 ## Required Environment Variables
 
