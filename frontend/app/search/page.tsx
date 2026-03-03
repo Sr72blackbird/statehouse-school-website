@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -169,9 +168,7 @@ export default async function SearchPage({
 
   return (
     <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }} role="main">
-      {/* Hero Section with Header */}
       <section className="relative">
-        <Header />
         <PageHero 
           title="Search"
           subtitle={query ? `Results for "${query}"` : "Find what you're looking for"}

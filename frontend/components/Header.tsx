@@ -34,8 +34,8 @@ export default async function Header() {
   const schoolName = data?.School_name || "State House Boys Senior School";
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-40 backdrop-blur-sm">
-      {/* Top school identity bar */}
+    <header>
+      {/* Top school identity bar — scrolls with page */}
       <div
         className="flex items-center justify-center gap-2 sm:gap-4 py-2 sm:py-3 px-4"
         style={{ backgroundColor: "var(--school-navy)" }}
@@ -64,14 +64,11 @@ export default async function Header() {
         </div>
       </div>
 
-      {/* Tie stripe accent */}
-      <div
-        className="h-1"
-        style={{ backgroundColor: "var(--uniform-accent)" }}
-      />
-
-      {/* Navigation bar - Transparent overlay that becomes solid on scroll (client) */}
-      <NavBarClient />
+      {/* Nav + gold stripe — sticky */}
+      <div className="sticky top-0 left-0 right-0 z-40 shadow-md">
+        <NavBarClient />
+        <div className="h-1" style={{ backgroundColor: "var(--uniform-accent)" }} />
+      </div>
     </header>
   );
 }

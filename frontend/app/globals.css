@@ -32,4 +32,42 @@
   color: var(--uniform-accent);
 }
 
+/* Header nav link with gold hover + animated underline */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  transition: color 0.25s ease;
+  text-decoration: none;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 9999px;
+  background-color: var(--uniform-accent);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+  transform-origin: center;
+}
+
+.nav-link:hover {
+  color: var(--uniform-accent);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  color: var(--uniform-accent);
+}
+
 

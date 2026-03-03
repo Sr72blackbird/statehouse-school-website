@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
@@ -68,9 +67,7 @@ export default async function AdmissionsPage() {
 
   return (
     <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
-      {/* Hero Section with Header */}
       <section className="relative">
-        <Header />
         <PageHero 
           title={data.title}
           subtitle="Join our school community"

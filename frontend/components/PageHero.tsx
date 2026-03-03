@@ -10,7 +10,7 @@ interface PageHeroProps {
 
 export default function PageHero({ title, subtitle, backgroundImage }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden min-h-[300px] sm:min-h-[350px]">
+    <section className="relative overflow-hidden min-h-[160px] sm:min-h-[200px]">
       {/* Background Image */}
       {backgroundImage && (
         <div
@@ -29,13 +29,13 @@ export default function PageHero({ title, subtitle, backgroundImage }: PageHeroP
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-40 sm:pt-44 pb-12 sm:pb-16 flex items-end min-h-[300px] sm:min-h-[350px]">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-10 sm:pt-12 pb-10 sm:pb-12 flex items-center min-h-[160px] sm:min-h-[200px]">
         <div className="text-center w-full">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
               {subtitle}
             </p>
           )}
@@ -49,7 +49,7 @@ export default function PageHero({ title, subtitle, backgroundImage }: PageHeroP
           fill="none" 
           xmlns="http://www.w3.org/2000/svg" 
           preserveAspectRatio="none" 
-          className="w-full h-[40px] sm:h-[60px]"
+          className="w-full h-[30px] sm:h-[40px]"
         >
           <path
             d="M0 80L60 73C120 67 240 53 360 47C480 40 600 40 720 43C840 47 960 53 1080 57C1200 60 1320 60 1380 60L1440 60V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z"

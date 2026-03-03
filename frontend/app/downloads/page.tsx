@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 
@@ -28,7 +27,6 @@ const downloads = [
 export default function DownloadsPage() {
   return (
     <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
-      <Header />
       <PageHero title="Downloads" subtitle="Important documents and resources" />
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4">

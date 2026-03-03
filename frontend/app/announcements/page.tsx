@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import { fetchFromStrapi, getStrapiMediaUrl } from "@/lib/strapi";
@@ -132,9 +131,7 @@ export default async function AnnouncementsPage() {
 
   return (
     <main className="min-h-screen" style={{ backgroundColor: "var(--school-grey)" }}>
-      {/* Hero Section with Header */}
       <section className="relative">
-        <Header />
         <PageHero 
           title="Announcements"
           subtitle="Stay updated with the latest news, notices, and events"
